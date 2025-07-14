@@ -1,0 +1,20 @@
+.priceBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 6.375em;
+  height: 1.5em;
+}
+
+.priceEnd {
+  justify-content: end;
+}
+
+.priceText {
+  font-weight: 400;
+  font-size: 28px;
+  font-family: 'Iceland', sans-serif;
+  line-height: 24px;
+  letter-spacing: 0;
+}

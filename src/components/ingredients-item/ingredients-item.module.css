@@ -1,0 +1,27 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  max-width: 17em;
+  margin-bottom: 1.5em;
+  border: 1px solid white;
+  border-radius: 16px;
+}
+
+img {
+  width: 100%;
+  max-width: 15em;
+  height: 7.5em;
+  object-fit: cover;
+}
+
+.text {
+  height: 3em;
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.5em;
+  text-align: center;
+}

@@ -1,0 +1,59 @@
+.block {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.25em;
+  width: 100%;
+  max-width: 35.5em;
+  height: 5em;
+}
+
+.constructorDescription {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #1c1c21;
+  border-radius: 2.5em;
+}
+
+.constructorPanel {
+  width: 0.813em;
+  height: 100%;
+  cursor: grab;
+}
+
+.constructorVisual {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1.25em;
+}
+
+.image {
+  width: 100%;
+  max-width: 5em;
+  height: 2.5em;
+}
+
+.text {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 15.875em;
+  height: 3em;
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+.constructorPrice {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 1.25em;
+}
+
+.constructorDelete {
+  cursor: pointer;
+}
