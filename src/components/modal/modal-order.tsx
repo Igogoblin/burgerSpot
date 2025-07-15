@@ -2,12 +2,10 @@ import { CheckMarkIcon } from '@krgaa/react-developer-burger-ui-components';
 
 import orderConfirm from '../../images/orderConfirm.svg';
 
-import type { TIngredient } from '@/utils/types';
-
 import style from './modal.module.css';
 
-const ModalOrder = ({ ingredient }: { ingredient: TIngredient }): React.JSX.Element => {
-  console.log(ingredient);
+const ModalOrder = (): React.JSX.Element => {
+  // console.log(ingredient);
   return (
     <div className={style.modalOrder}>
       <h2 className={style.title}>034536</h2>

@@ -17,7 +17,6 @@ type TBurgerIngredientsProps = {
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  // console.log(ingredients);
   const [ingredientOpen, setIngredientOpen] = useState(['bun']);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);

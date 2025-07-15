@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import ModalIngredients from '../burger-ingredients/burger-ingredients';
+import BurgerPrice from '../burger-price/burger-price';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import ModalOrder from '../modal/modal-order';
@@ -18,7 +20,7 @@ export const BurgerConstructor = ({
 }: TBurgerConstructorProps): React.JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);
-
+  const [isOrder, setIsOrdered] = useState(false);
   const handleClose = (): void => {
     setIsOpen(false);
     setSelected(null);
@@ -27,20 +29,38 @@ export const BurgerConstructor = ({
     setIsOpen(true);
     setSelected(ingredient);
   };
-
-  console.log(ingredients);
+  const handleOpenOrder = (): void => {
+    setIsOrdered(true);
+  };
+  const handleCloseOrder = (): void => {
+    setIsOrdered(false);
+  };
 
   return (
     <section className={styles.burger_constructor}>
-      {ingredients.map((item) => (
-        <ConstructorItem key={item._id} ingredient={item} onClick={handleOpen} />
-      ))}
+      <div className={styles.constructor}>
+        {ingredients.map((item) => (
+          <ConstructorItem key={item._id} ingredient={item} onClick={handleOpen} />
+        ))}
+      </div>
+      <div>
+        <BurgerPrice price={ingredients.reduce((acc, item) => acc + item.price, 0)} />
+        <button onClick={handleOpenOrder}>Оформить заказ</button>
+      </div>
       {isOpen && selected && (
         <>
           <Modal onClose={handleClose}>
-            <ModalOrder ingredient={selected} />
+            <ModalIngredients ingredient={selected} />
           </Modal>
           <ModalOverlay onClose={handleClose} />
+        </>
+      )}
+      {isOrder && (
+        <>
+          <Modal onClose={handleCloseOrder}>
+            <ModalOrder />
+          </Modal>
+          <ModalOverlay onClose={handleCloseOrder} />
         </>
       )}
     </section>

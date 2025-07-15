@@ -6,8 +6,8 @@
   gap: 4px;
   width: 100%;
   max-width: 17em;
+  height: 13em;
   margin-bottom: 1.5em;
-  border: 1px solid white;
   border-radius: 16px;
 }
 
@@ -24,4 +24,5 @@ img {
   font-size: 1em;
   line-height: 1.5em;
   text-align: center;
+  text-wrap: balance;
 }

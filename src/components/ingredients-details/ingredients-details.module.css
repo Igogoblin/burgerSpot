@@ -17,7 +17,15 @@
 .ingredientsList {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
   gap: 1.5em;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  max-height: 758px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .title {

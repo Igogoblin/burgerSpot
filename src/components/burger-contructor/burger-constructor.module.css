@@ -6,3 +6,10 @@
   padding-bottom: 20px;
   color: var(--text-primary-color);
 }
+
+.constructor {
+  width: 566px;
+  height: 656px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
