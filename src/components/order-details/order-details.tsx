@@ -1,17 +1,17 @@
 import BurgerPrice from '@/components/burger-price/burger-price';
 import { DeleteIcon, DragIcon } from '@krgaa/react-developer-burger-ui-components';
 
-import type { TIngredient } from '@utils/types';
+// import type { TIngredient } from '@utils/types';
+import type { TIngredientsItemProps } from '../ingredients-item/ingredients-item';
 
 import style from './order-details.module.css';
 
 const ConstructorItem = ({
   ingredient,
-}: {
-  ingredient: TIngredient;
-}): React.JSX.Element => {
+  onClick,
+}: TIngredientsItemProps): React.JSX.Element => {
   return (
-    <div className={style.block}>
+    <div className={style.block} onClick={() => onClick(ingredient)}>
       <DragIcon type="primary" className={style.constructorPanel} />
       <div className={style.constructorDescription}>
         <div className={style.constructorVisual}>

@@ -4,7 +4,7 @@ import type { TIngredient } from '@utils/types';
 
 import style from './ingredients-item.module.css';
 
-type TIngredientsItemProps = {
+export type TIngredientsItemProps = {
   ingredient: TIngredient;
   onClick: (ingredient: TIngredient) => void;
 };
