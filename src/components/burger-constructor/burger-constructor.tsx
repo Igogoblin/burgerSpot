@@ -1,11 +1,12 @@
+import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerPrice from '../burger-price/burger-price';
+import ConstructorItem from '../constructor-item/constructor-item';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import ModalOrder from '../modal/modal-order';
-import ConstructorItem from '../order-details/order-details';
 
 import type { TIngredient } from '@utils/types';
 
@@ -43,9 +44,11 @@ export const BurgerConstructor = ({
           <ConstructorItem key={item._id} ingredient={item} onClick={handleOpen} />
         ))}
       </div>
-      <div>
+      <div className={styles.total}>
         <BurgerPrice price={ingredients.reduce((acc, item) => acc + item.price, 0)} />
-        <button onClick={handleOpenOrder}>Оформить заказ</button>
+        <Button htmlType="button" type="primary" size="medium" onClick={handleOpenOrder}>
+          Оформить заказ
+        </Button>
       </div>
       {isOpen && selected && (
         <>

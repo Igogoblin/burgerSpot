@@ -1,4 +1,4 @@
-.priceBlock {
+.price_block {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,11 +7,11 @@
   height: 1.5em;
 }
 
-.priceEnd {
+.price_end {
   justify-content: end;
 }
 
-.priceText {
+.price_text {
   font-weight: 400;
   font-size: 28px;
   font-family: 'Iceland', sans-serif;

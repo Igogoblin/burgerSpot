@@ -1,15 +1,25 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1em;
   width: 600px;
-  padding-bottom: 20px;
+  height: 656px;
   color: var(--text-primary-color);
 }
 
 .constructor {
-  width: 566px;
+  width: 592px;
   height: 656px;
+  padding: 0 1em;
   overflow-x: auto;
   white-space: nowrap;
+}
+
+.total {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 2.5em;
+  margin-top: 2.5em;
 }

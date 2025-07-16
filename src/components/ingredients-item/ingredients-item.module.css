@@ -9,6 +9,7 @@
   height: 13em;
   margin-bottom: 1.5em;
   border-radius: 16px;
+  cursor: pointer;
 }
 
 img {

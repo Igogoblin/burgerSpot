@@ -5,7 +5,6 @@ import orderConfirm from '../../images/orderConfirm.svg';
 import style from './modal.module.css';
 
 const ModalOrder = (): React.JSX.Element => {
-  // console.log(ingredient);
   return (
     <div className={style.modalOrder}>
       <h2 className={style.title}>034536</h2>

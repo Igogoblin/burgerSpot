@@ -1,8 +1,8 @@
+import { BurgerConstructor } from '@/components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@/components/ingredients-details/ingredients-details';
 import { useEffect, useState } from 'react';
 
 import { AppHeader } from '@components/app-header/app-header';
-import { BurgerConstructor } from '@components/burger-contructor/burger-constructor';
 
 import type { TIngredient } from '@/utils/types';
 
@@ -17,7 +17,6 @@ export const App = (): React.JSX.Element => {
           'https://norma.nomoreparties.space/api/ingredients'
         );
         const result = (await ingredient.json()) as { data: TIngredient[] };
-        console.log(result.data);
         setIngredients(result.data);
       } catch (error) {
         console.error('Failed to fetch ingredients:', error);

@@ -8,8 +8,8 @@ type TPrice = {
 
 const BurgerPrice = ({ price, isCenter = true }: TPrice): React.JSX.Element => {
   return (
-    <div className={`${style.priceBlock} ${!isCenter ? style.priceEnd : ''}`}>
-      <span className={style.priceText}>{price}</span>
+    <div className={`${style.price_block} ${!isCenter ? style.price_end : ''}`}>
+      <span className={style.price_text}>{price}</span>
       <CurrencyIcon type="primary" />
     </div>
   );
