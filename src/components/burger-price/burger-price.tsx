@@ -3,6 +3,7 @@ import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import style from './burger-price.module.css';
 type TPrice = {
   price: number;
+  type?: string;
   isCenter?: boolean;
 };
 

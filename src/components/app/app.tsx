@@ -8,10 +8,6 @@ import type { TIngredient } from '@/utils/types';
 
 import styles from './app.module.css';
 
-type TApiErrorResponse = {
-  message: string;
-};
-
 export const App = (): React.JSX.Element => {
   const [ingredients, setIngredients] = useState<TIngredient[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,13 +20,17 @@ export const App = (): React.JSX.Element => {
         const response = await fetch(
           'https://norma.nomoreparties.space/api/ingredients'
         );
-        if (!response.ok) {
-          const errorData = (await response.json()) as TApiErrorResponse;
-          throw new Error(errorData.message || 'Unknown error');
-        }
         const result = (await response.json()) as { data: TIngredient[] };
-        if (!result.data) {
-          throw new Error('Failed to fetch ingredients');
+        if (!response.ok) {
+          const errorMessage =
+            typeof result === 'object' && result !== null && 'message' in result
+              ? (result as { message: string }).message
+              : `Ошибка ${response.status}`;
+          throw new Error(errorMessage);
+        }
+
+        if (!('data' in result) || !Array.isArray(result.data)) {
+          throw new Error('Invalid data format');
         }
         setIngredients(result.data);
       } catch (error) {

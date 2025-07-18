@@ -22,6 +22,7 @@ export const BurgerConstructor = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);
   const [isOrder, setIsOrdered] = useState(false);
+
   const handleClose = (): void => {
     setIsOpen(false);
     setSelected(null);
@@ -37,12 +38,37 @@ export const BurgerConstructor = ({
     setIsOrdered(false);
   };
 
+  const bun = ingredients.find((item) => item.type === 'bun');
+
   return (
     <section className={styles.burger_constructor}>
-      <div className={styles.constructor}>
-        {ingredients.map((item) => (
-          <ConstructorItem key={item._id} ingredient={item} onClick={handleOpen} />
-        ))}
+      <div className={`${styles.constructor_container}`}>
+        {bun && (
+          <ConstructorItem
+            key={bun._id}
+            ingredient={bun}
+            onClick={handleOpen}
+            type={'secondary'}
+            className={`${styles.constructorItemTop}`}
+          />
+        )}
+        <div className={styles.constructor}>
+          {ingredients
+            .filter((item) => item.type !== 'bun')
+            .map((item) => (
+              <ConstructorItem key={item._id} ingredient={item} onClick={handleOpen} />
+            ))}
+        </div>
+
+        {bun && (
+          <ConstructorItem
+            key={`${bun._id}2`}
+            ingredient={bun}
+            onClick={handleOpen}
+            type={'secondary'}
+            className={`${styles.constructorItemBottom}`}
+          />
+        )}
       </div>
       <div className={styles.total}>
         <BurgerPrice price={ingredients.reduce((acc, item) => acc + item.price, 0)} />

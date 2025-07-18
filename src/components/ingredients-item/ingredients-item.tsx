@@ -6,6 +6,8 @@ import style from './ingredients-item.module.css';
 
 export type TIngredientsItemProps = {
   ingredient: TIngredient;
+  type?: string;
+  className?: string;
   onClick: (ingredient: TIngredient) => void;
 };
 const IngredientsItem = ({
