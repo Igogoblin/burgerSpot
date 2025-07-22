@@ -1,0 +1,64 @@
+.block {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+  width: 100%;
+  max-width: 568px;
+  height: 5em;
+  margin-bottom: 1em;
+  cursor: pointer;
+}
+
+.constructorDescription {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--background);
+  border-radius: 2.5em;
+  opacity: 0.6;
+}
+
+.constructorPanel {
+  width: 0.813em;
+  height: 100%;
+  cursor: grab;
+}
+
+.constructorPanelLock {
+  opacity: 0;
+}
+
+.constructorVisual {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1.25em;
+}
+
+.image {
+  width: 100%;
+  max-width: 5em;
+  height: 2.5em;
+  margin-left: 1.5em;
+}
+
+.text {
+  width: 240px;
+  font-size: 1em;
+  line-height: 1.5em;
+  white-space: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.constructorPrice {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 1.25em;
+  margin-right: 28px;
+}
+
+.constructorDelete {
+  cursor: pointer;
+}

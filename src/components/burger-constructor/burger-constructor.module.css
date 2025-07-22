@@ -1,0 +1,36 @@
+.burger_constructor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1em;
+  width: 610px;
+  height: 656px;
+  color: var(--text-primary-color);
+}
+
+.constructor_container {
+  padding: 0 1em;
+}
+
+.constructor {
+  width: 592px;
+  height: 480px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.total {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 2.5em;
+  margin: 2.5em 1em;
+}
+
+.constructorItemTop {
+  border-radius: 88px 88px 2.5em 2.5em;
+}
+
+.constructorItemBottom {
+  border-radius: 44px 44px 88px 88px;
+}
