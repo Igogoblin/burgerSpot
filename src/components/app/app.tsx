@@ -35,7 +35,7 @@ export const App = (): React.JSX.Element => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
+        <BurgerIngredients />
         <BurgerConstructor ingredients={ingredients} />
       </main>
     </div>

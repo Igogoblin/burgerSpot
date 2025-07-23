@@ -18,6 +18,7 @@ export type TIngredientsState = {
   ingredients: TIngredient[];
   listIngredients: TIngredient[];
   ingredient: TIngredient | null;
+  type: string[];
   isLoading: boolean;
   error: string | null;
 };
@@ -26,6 +27,7 @@ const initialState: TIngredientsState = {
   ingredients: [],
   listIngredients: [],
   ingredient: null,
+  type: ['bun', 'main', 'sauce'],
   isLoading: false,
   error: null,
 };
@@ -33,7 +35,14 @@ const initialState: TIngredientsState = {
 const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  reducers: {},
+  reducers: {
+    setIngredient(state, action: { payload: TIngredient }) {
+      state.ingredient = action.payload;
+    },
+    setType(state, action: { payload: string[] }) {
+      state.type = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state: TIngredientsState) => {
@@ -52,4 +61,5 @@ const ingredientsSlice = createSlice({
 });
 
 export default ingredientsSlice;
+export const { setIngredient, setType } = ingredientsSlice.actions;
 export { fetchIngredients };
