@@ -1,6 +1,7 @@
 import { setIngredient, setType } from '@/services/ingredientsSlice';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useState } from 'react';
+// import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
@@ -12,7 +13,6 @@ import type { RootState } from '@/services/store';
 import type { TIngredient } from '@utils/types';
 
 import styles from './ingredients-details.module.css';
-
 export const BurgerIngredients = (): React.JSX.Element => {
   const dispatch = useDispatch();
   const { ingredients, type } = useSelector((store: RootState) => store.ingredients);
@@ -25,6 +25,20 @@ export const BurgerIngredients = (): React.JSX.Element => {
     main: null,
     sauce: null,
   });
+  // const [, dragRef] = useDrag<{ type: string }, unknown, { isDragging: boolean }>({
+  //   type: 'ingredient',
+  //   item: { type: 'ingredient' },
+  //   collect: (monitor) => ({
+  //     isDragging: monitor.isDragging(),
+  //   }),
+  // });
+  // const [{ isDrag }, dragRef] = useDrag({
+  //   type: 'ingredient',
+  //   item: { type: 'ingredient' },
+  //   collect: (monitor) => ({
+  //     isDrag: monitor.isDragging(),
+  //   }),
+  // });
   const handleScroll = (): void => {
     if (!scrollRef.current) return;
     const containerTop = scrollRef.current.getBoundingClientRect().top;
@@ -114,13 +128,28 @@ export const BurgerIngredients = (): React.JSX.Element => {
               <h2 className={styles.title}>{showTitle(type)}</h2>
               {ingredients
                 .filter((item) => item.type === type)
-                .map((item) => (
-                  <IngredientsItem
-                    key={item._id}
-                    ingredient={item}
-                    onClick={() => choice(item)}
-                  />
-                ))}
+                .map((item) => {
+                  // const [{ isDragging }, dragRef] = useDrag<
+                  //   { type: string },
+                  //   unknown,
+                  //   { isDragging: boolean }
+                  // >({
+                  //   type: 'ingredient',
+                  //   item: { type: 'ingredient' },
+                  //   collect: (monitor) => ({
+                  //     isDragging: monitor.isDragging(),
+                  //   }),
+                  // });
+                  return (
+                    <IngredientsItem
+                      key={item._id}
+                      ingredient={item}
+                      onClick={() => choice(item)}
+                      // ref={dragRef as unknown as React.Ref<HTMLDivElement>}
+                      // draggable={true}
+                    />
+                  );
+                })}
             </div>
           );
         })}
@@ -136,3 +165,12 @@ export const BurgerIngredients = (): React.JSX.Element => {
     </section>
   );
 };
+
+//  <div
+//     ref={(node) => {
+//       if (node) dragRef(node);
+//     }}
+//     key={item._id}
+//     draggable={true}
+//   >
+//   </div>
