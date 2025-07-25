@@ -10,7 +10,6 @@ export type TIngredientsItemProps = {
   type?: string;
   className?: string;
   onClick: (ingredient: TIngredient) => void;
-  // draggable?: boolean;
 };
 
 const IngredientsItem = ({
@@ -20,9 +19,9 @@ const IngredientsItem = ({
   const [, dragRef] = useDrag<TIngredient, unknown>({
     type: 'ingredient',
     item: ingredient,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    // collect: (monitor) => ({
+    //   isDragging: monitor.isDragging(),
+    // }),
   });
   return (
     <div

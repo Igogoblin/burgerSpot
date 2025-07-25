@@ -1,9 +1,12 @@
 import { setListIngredient, setBun } from '@/services/ingredientsSlice';
+import { clearOrder, createOrder } from '@/services/orderSlice';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
+import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerPrice from '../burger-price/burger-price';
 import ConstructorItem from '../constructor-item/constructor-item';
@@ -16,16 +19,17 @@ import type { TIngredient } from '@utils/types';
 
 import styles from './burger-constructor.module.css';
 
-// type TBurgerConstructorProps = {
-//   ingredients: TIngredient[];
-// };
-
 export const BurgerConstructor = (): React.JSX.Element => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);
   const [isOrder, setIsOrdered] = useState(false);
-  const { listIngredients, bun } = useSelector((store: RootState) => store.ingredients);
+  const { listIngredients, bun, ingredients } = useAppSelector(
+    (store: RootState) => store.ingredients
+  );
+  const orderNumber = useAppSelector((store: RootState) => store.order.number);
+  // const others = listIngredients.filter((item) => item.type !== 'bun');
   const [{ isDragging }, dropRef] = useDrop<
     TIngredient,
     unknown,
@@ -33,8 +37,11 @@ export const BurgerConstructor = (): React.JSX.Element => {
   >({
     accept: 'ingredient',
     drop(ingredient) {
-      console.log('Dropped ingredient:', ingredient);
-      dispatch(setListIngredient([ingredient]));
+      dispatch(
+        setListIngredient([
+          ingredient._id ? { ...ingredient, _id: nanoid() } : ingredient,
+        ])
+      );
       dispatch(setBun(false));
     },
     collect: (monitor) => ({
@@ -50,14 +57,55 @@ export const BurgerConstructor = (): React.JSX.Element => {
     setIsOpen(true);
     setSelected(ingredient);
   };
-  const handleOpenOrder = (): void => {
+
+  function getIngredientObjects(
+    selected: { name: string }[],
+    allIngredients: TIngredient[]
+  ): TIngredient[] {
+    return selected
+      .map((sel) => allIngredients.find((item) => item.name === sel.name) ?? null)
+      .filter((item): item is TIngredient => item !== null);
+  }
+  const handleOpenOrder = async (): Promise<void> => {
     setIsOrdered(true);
+
+    if (!bun) {
+      alert('Пожалуйста, выберите булку для вашего бургера!');
+      return;
+    }
+
+    const selectedIngredients = getIngredientObjects(listIngredients, ingredients);
+
+    // Добавляем булку дважды — в начало и конец (по условиям API)
+    const fullOrder = [
+      bun, // верхняя булка
+      ...selectedIngredients,
+      bun, // нижняя булка
+    ];
+
+    // Преобразуем в массив _id
+    const ingredientIds = (fullOrder as TIngredient[])
+      .map((item) => item._id)
+      .filter((id): id is string => typeof id === 'string');
+
+    // console.log('Отправляемые ID ингредиентов:', ingredientIds);
+
+    try {
+      const result = await dispatch(createOrder(ingredientIds)).unwrap();
+      console.log(`Заказ успешно создан! Номер заказа: ${result}`);
+    } catch (error) {
+      console.error('Ошибка при создании заказа:', error);
+      alert('Не удалось создать заказ. Пожалуйста, попробуйте ещё раз.');
+    }
   };
   const handleCloseOrder = (): void => {
     setIsOrdered(false);
+    dispatch(clearOrder());
   };
 
-  // const bun = ingredients.find((item) => item.type === 'bun');
+  const totalPrice =
+    (listIngredients.find((item) => item.type === 'bun')?.price ?? 0) +
+    listIngredients.reduce((acc, item) => acc + item.price, 0);
 
   return (
     <section className={styles.burger_constructor}>
@@ -103,10 +151,13 @@ export const BurgerConstructor = (): React.JSX.Element => {
         )}
       </div>
       <div className={styles.total}>
-        <BurgerPrice
-          price={listIngredients.reduce((acc, item) => acc + item.price, 0) ?? 0}
-        />
-        <Button htmlType="button" type="primary" size="medium" onClick={handleOpenOrder}>
+        <BurgerPrice price={totalPrice} />
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={() => void handleOpenOrder()}
+        >
           Оформить заказ
         </Button>
       </div>
@@ -121,7 +172,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
       {isOrder && (
         <>
           <Modal onClose={handleCloseOrder}>
-            <ModalOrder />
+            <ModalOrder numberOrder={orderNumber?.toString() ?? null} />
           </Modal>
           <ModalOverlay onClose={handleCloseOrder} />
         </>
