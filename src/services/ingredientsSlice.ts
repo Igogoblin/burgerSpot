@@ -68,6 +68,11 @@ const ingredientsSlice = createSlice({
         state.listIngredients.splice(index, 1);
       }
     },
+    orderClear(state) {
+      state.listIngredients = [];
+      state.bun = false;
+      state.ingredient = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -94,5 +99,6 @@ export const {
   setBun,
   setDecrimentIngredient,
   replaceListIngredient,
+  orderClear,
 } = ingredientsSlice.actions;
 export { fetchIngredients };

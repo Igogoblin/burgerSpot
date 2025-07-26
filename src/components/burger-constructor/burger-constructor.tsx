@@ -2,6 +2,7 @@ import {
   setListIngredient,
   setBun,
   replaceListIngredient,
+  orderClear,
 } from '@/services/ingredientsSlice';
 import { clearOrder, createOrder } from '@/services/orderSlice';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
@@ -99,6 +100,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   };
   const handleCloseOrder = (): void => {
     setIsOrdered(false);
+    dispatch(orderClear());
     dispatch(clearOrder());
   };
 
