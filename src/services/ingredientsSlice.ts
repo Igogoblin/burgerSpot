@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { API_URL } from './constants/constants';
 
+import type { TIngredientsState } from './types/types';
 import type { TIngredient } from '@/utils/types';
 
 const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async () => {
@@ -15,37 +16,6 @@ const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async 
   }
   return result.data;
 });
-
-// const fetchOrder = createAsyncThunk(
-//   'ingredients/fetchOrder',
-//   async (order: { ingredients: string[] }) => {
-//     const response = await fetch(ORDER_API_URL, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(order),
-//     });
-//     if (!response.ok) {
-//       throw new Error(`Ошибка ${response.status}`);
-//     }
-//     const result = await response.json();
-//     if (!('order' in result) || !result.order || !('number' in result.order)) {
-//       throw new Error('Invalid order format');
-//     }
-//     return result.order.number;
-//   }
-// );
-
-export type TIngredientsState = {
-  ingredients: TIngredient[];
-  listIngredients: TIngredient[];
-  ingredient: TIngredient | null;
-  type: string[];
-  bun: boolean;
-  isLoading: boolean;
-  error: string | null;
-};
 
 const initialState: TIngredientsState = {
   ingredients: [],
@@ -82,6 +52,9 @@ const ingredientsSlice = createSlice({
           state.listIngredients.push(ingredient);
         }
       }
+    },
+    replaceListIngredient(state, action: { payload: TIngredient[] }) {
+      state.listIngredients = action.payload;
     },
     setBun(state, action: { payload: boolean }) {
       state.bun =
@@ -120,5 +93,6 @@ export const {
   setListIngredient,
   setBun,
   setDecrimentIngredient,
+  replaceListIngredient,
 } = ingredientsSlice.actions;
 export { fetchIngredients };

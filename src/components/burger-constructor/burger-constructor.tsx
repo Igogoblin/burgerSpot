@@ -1,10 +1,13 @@
-import { setListIngredient, setBun } from '@/services/ingredientsSlice';
+import {
+  setListIngredient,
+  setBun,
+  replaceListIngredient,
+} from '@/services/ingredientsSlice';
 import { clearOrder, createOrder } from '@/services/orderSlice';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
-// import { useSelector } from 'react-redux';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
@@ -20,7 +23,6 @@ import type { TIngredient } from '@utils/types';
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = (): React.JSX.Element => {
-  // const dispatch = useDispatch();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);
@@ -29,7 +31,6 @@ export const BurgerConstructor = (): React.JSX.Element => {
     (store: RootState) => store.ingredients
   );
   const orderNumber = useAppSelector((store: RootState) => store.order.number);
-  // const others = listIngredients.filter((item) => item.type !== 'bun');
   const [{ isDragging }, dropRef] = useDrop<
     TIngredient,
     unknown,
@@ -88,8 +89,6 @@ export const BurgerConstructor = (): React.JSX.Element => {
       .map((item) => item._id)
       .filter((id): id is string => typeof id === 'string');
 
-    // console.log('Отправляемые ID ингредиентов:', ingredientIds);
-
     try {
       const result = await dispatch(createOrder(ingredientIds)).unwrap();
       console.log(`Заказ успешно создан! Номер заказа: ${result}`);
@@ -101,6 +100,15 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const handleCloseOrder = (): void => {
     setIsOrdered(false);
     dispatch(clearOrder());
+  };
+
+  const moveCard = (dragIndex: number, hoverIndex: number): void => {
+    const dragCard = listIngredients.slice(1)[dragIndex];
+    const bun = listIngredients.find((item) => item.type === 'bun');
+    const newList = [...listIngredients.slice(1)];
+    newList.splice(dragIndex, 1);
+    newList.splice(hoverIndex, 0, dragCard);
+    dispatch(replaceListIngredient(bun ? [bun, ...newList] : [...newList]));
   };
 
   const totalPrice =
@@ -131,8 +139,14 @@ export const BurgerConstructor = (): React.JSX.Element => {
           {listIngredients.length > 0 ? (
             listIngredients
               .filter((item) => item.type !== 'bun')
-              .map((item) => (
-                <ConstructorItem key={item._id} ingredient={item} onClick={handleOpen} />
+              .map((item, index) => (
+                <ConstructorItem
+                  key={item._id}
+                  ingredient={item}
+                  onClick={handleOpen}
+                  moveCard={moveCard}
+                  index={index}
+                />
               ))
           ) : (
             <div className={`${styles.constructor_without_items}`}>Выберите начинку</div>
@@ -145,6 +159,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
             onClick={handleOpen}
             type={'secondary'}
             className={`${styles.constructorItemBottom}`}
+            moveCard={moveCard}
           />
         ) : (
           <div className={`${styles.constructorItemBottom}`}>Выберите булки</div>

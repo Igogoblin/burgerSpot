@@ -9,7 +9,9 @@ export type TIngredientsItemProps = {
   ingredient: TIngredient;
   type?: string;
   className?: string;
+  index?: number;
   onClick: (ingredient: TIngredient) => void;
+  moveCard?: (dragIndex: number, hoverIndex: number) => void;
 };
 
 const IngredientsItem = ({

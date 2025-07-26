@@ -1,17 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-export type IApiErrorResponse = {
-  success: boolean;
-  message?: string;
-};
 
-// import { ORDER_API_URL } from './constants/constants';
-import type { ICreateOrderResponse, IOrderState } from './types/types';
+import { ORDER_API_URL } from './constants/constants';
+
+import type {
+  IApiErrorResponse,
+  ICreateOrderResponse,
+  IOrderState,
+} from './types/types';
+
 export const createOrder = createAsyncThunk<number, string[], { rejectValue: string }>(
   'order/createOrder',
   async (ingredientIds, { rejectWithValue }) => {
-    console.log('creating order with', ingredientIds);
     try {
-      const response = await fetch('https://norma.nomoreparties.space/api/orders', {
+      const response = await fetch(ORDER_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -19,7 +20,6 @@ export const createOrder = createAsyncThunk<number, string[], { rejectValue: str
         body: JSON.stringify({ ingredients: ingredientIds }),
       });
       const responseBody = (await response.json()) as ICreateOrderResponse;
-      console.log('responseBody -', responseBody);
       if (!response.ok) {
         const error = responseBody as IApiErrorResponse;
         return rejectWithValue(error.message ?? 'Failed to create order');
