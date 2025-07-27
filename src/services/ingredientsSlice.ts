@@ -56,9 +56,9 @@ const ingredientsSlice = createSlice({
       state.bun =
         state.listIngredients.some((item) => item.type === 'bun') || action.payload;
     },
-    setDecrimentIngredient(state, action: { payload: { _id: string } }) {
+    setDecrimentIngredient(state, action: { payload: { uniqueId: string } }) {
       const index = state.listIngredients.findIndex(
-        (item) => item._id === action.payload._id
+        (item) => item.uniqueId === action.payload.uniqueId
       );
       if (index !== -1) {
         state.listIngredients.splice(index, 1);

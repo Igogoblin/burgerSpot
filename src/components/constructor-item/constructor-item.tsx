@@ -14,7 +14,7 @@ import type { TIngredientsItemProps } from '../ingredients-item/ingredients-item
 import style from './constructor-item.module.css';
 
 type IDragItem = {
-  _id: string;
+  uniqueId: string;
   index: number;
 };
 
@@ -28,13 +28,13 @@ const ConstructorItem = ({
 }: TIngredientsItemProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement | null>(null);
-  const delleteIngredient = (index: string): void => {
-    dispatch(setDecrimentIngredient({ _id: index }));
+  const delleteIngredient = (uniqueId: string): void => {
+    dispatch(setDecrimentIngredient({ uniqueId }));
   };
 
   const [, drag] = useDrag<IDragItem>({
     type: 'card',
-    item: () => ({ _id: ingredient._id, index: Number(index) }),
+    item: () => ({ uniqueId: ingredient.uniqueId ?? ' ', index: Number(index) }),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

@@ -41,7 +41,8 @@ export const BurgerConstructor = (): React.JSX.Element => {
     drop(ingredient) {
       dispatch(
         setListIngredient([
-          ingredient._id ? { ...ingredient, _id: nanoid() } : ingredient,
+          // ingredient._id ? { ...ingredient, _id: nanoid() } : ingredient,
+          { ...ingredient, uniqueId: nanoid() },
         ])
       );
       dispatch(setBun(false));
@@ -143,7 +144,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
               .filter((item) => item.type !== 'bun')
               .map((item, index) => (
                 <ConstructorItem
-                  key={item._id}
+                  key={item.uniqueId}
                   ingredient={item}
                   onClick={handleOpen}
                   moveCard={moveCard}
