@@ -1,21 +1,20 @@
 import { setIngredientDetails, setType } from '@/services/ingredientsSlice';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import IngredientsItem from '../ingredients-item/ingredients-item';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 
-import type { RootState } from '@/services/store';
 import type { TIngredient } from '@utils/types';
 
 import styles from './ingredients-details.module.css';
 
 export const BurgerIngredients = (): React.JSX.Element => {
-  const dispatch = useDispatch();
-  const { ingredients, type } = useSelector((store: RootState) => store.ingredients);
+  const dispatch = useAppDispatch();
+  const { ingredients, type } = useAppSelector((store) => store.ingredients);
   const [ingredientOpen, setIngredientOpen] = useState<string[]>(['']);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);

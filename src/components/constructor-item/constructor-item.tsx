@@ -1,4 +1,5 @@
 import BurgerPrice from '@/components/burger-price/burger-price';
+import { useAppDispatch } from '@/hooks/hooks';
 import { setDecrimentIngredient } from '@/services/ingredientsSlice';
 import {
   DeleteIcon,
@@ -7,7 +8,6 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 
 import type { TIngredientsItemProps } from '../ingredients-item/ingredients-item';
 
@@ -26,7 +26,7 @@ const ConstructorItem = ({
   onClick,
   moveCard,
 }: TIngredientsItemProps): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement | null>(null);
   const delleteIngredient = (index: string): void => {
     dispatch(setDecrimentIngredient({ _id: index }));

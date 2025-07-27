@@ -1,20 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { API_URL } from './constants/constants';
+import { request } from './utils/request';
 
 import type { TIngredientsState } from './types/types';
 import type { TIngredient } from '@/utils/types';
 
 const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async () => {
-  const response = await fetch(API_URL);
-  if (!response.ok) {
-    throw new Error(`Ошибка ${response.status}`);
-  }
-  const result = (await response.json()) as { data: TIngredient[] };
-  if (!('data' in result) || !Array.isArray(result.data)) {
-    throw new Error('Invalid data format');
-  }
-  return result.data;
+  return await request<TIngredient[]>('/ingredients');
 });
 
 const initialState: TIngredientsState = {
@@ -25,6 +17,10 @@ const initialState: TIngredientsState = {
   bun: false,
   isLoading: false,
   error: null,
+  state: {
+    success: false,
+    data: [],
+  },
 };
 
 const ingredientsSlice = createSlice({

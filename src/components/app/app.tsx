@@ -1,25 +1,20 @@
 import { BurgerConstructor } from '@/components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@/components/ingredients-details/ingredients-details';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { fetchIngredients } from '@/services/ingredientsSlice';
 import { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 
-import type { AppDispatch, RootState } from '@/services/store';
-
 import styles from './app.module.css';
 export const App = (): React.JSX.Element => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector((store: RootState) => store.ingredients);
-  // const test = useSelector((store: RootState) => store.ingredients.test);
+  const dispatch = useAppDispatch();
+  const { isLoading, error } = useAppSelector((store) => store.ingredients);
   useEffect(() => {
     void dispatch(fetchIngredients());
   }, [dispatch]);
-  // console.log('Ingredients from Redux:', ingredients);
-  // console.log('this is test ingredients', test);
 
   if (error) {
     return <div>{error}</div>;

@@ -20,6 +20,7 @@ export type IApiErrorResponse = {
 };
 
 export type TIngredientsState = {
+  state: { success: boolean; data: TIngredient[] };
   ingredients: TIngredient[];
   listIngredients: TIngredient[];
   ingredient: TIngredient | null;

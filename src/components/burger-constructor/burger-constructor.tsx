@@ -29,7 +29,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const [selected, setSelected] = useState<TIngredient | null>(null);
   const [isOrder, setIsOrdered] = useState(false);
   const { listIngredients, bun, ingredients } = useAppSelector(
-    (store: RootState) => store.ingredients
+    (store) => store.ingredients
   );
   const orderNumber = useAppSelector((store: RootState) => store.order.number);
   const [{ isDragging }, dropRef] = useDrop<
