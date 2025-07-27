@@ -73,7 +73,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
     setIsOrdered(true);
 
     if (!bun) {
-      alert('Пожалуйста, выберите булку для вашего бургера!');
+      alert('Пожалуйста, выберите булку для вашего заказа!');
       return;
     }
 

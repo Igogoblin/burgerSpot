@@ -1,6 +1,6 @@
 import BurgerPrice from '@/components/burger-price/burger-price';
 import { useAppDispatch } from '@/hooks/hooks';
-import { setDecrimentIngredient } from '@/services/ingredientsSlice';
+import { setDecrementIngredient } from '@/services/ingredientsSlice';
 import {
   DeleteIcon,
   DragIcon,
@@ -28,8 +28,9 @@ const ConstructorItem = ({
 }: TIngredientsItemProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement | null>(null);
-  const delleteIngredient = (uniqueId: string): void => {
-    dispatch(setDecrimentIngredient({ uniqueId }));
+  const removeIngredient = (uniqueId: string): void => {
+    if (!uniqueId) return;
+    dispatch(setDecrementIngredient({ uniqueId }));
   };
 
   const [, drag] = useDrag<IDragItem>({
@@ -90,7 +91,9 @@ const ConstructorItem = ({
             <DeleteIcon
               type="primary"
               className={`${style.constructorDelete}`}
-              onClick={() => delleteIngredient(ingredient._id)}
+              onClick={() =>
+                ingredient.uniqueId && removeIngredient(ingredient.uniqueId)
+              }
             />
           )}
         </div>

@@ -56,7 +56,7 @@ const ingredientsSlice = createSlice({
       state.bun =
         state.listIngredients.some((item) => item.type === 'bun') || action.payload;
     },
-    setDecrimentIngredient(state, action: { payload: { uniqueId: string } }) {
+    setDecrementIngredient(state, action: { payload: { uniqueId: string } }) {
       const index = state.listIngredients.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
@@ -93,7 +93,7 @@ export const {
   setType,
   setListIngredient,
   setBun,
-  setDecrimentIngredient,
+  setDecrementIngredient,
   replaceListIngredient,
   orderClear,
 } = ingredientsSlice.actions;

@@ -1,10 +1,10 @@
 import BurgerPrice from '@/components/burger-price/burger-price';
+import { nanoid } from 'nanoid';
 import { useDrag } from 'react-dnd';
 
 import type { TIngredient } from '@utils/types';
 
 import style from './ingredients-item.module.css';
-
 export type TIngredientsItemProps = {
   ingredient: TIngredient;
   type?: string;
@@ -12,6 +12,7 @@ export type TIngredientsItemProps = {
   index?: number;
   onClick: (ingredient: TIngredient) => void;
   moveCard?: (dragIndex: number, hoverIndex: number) => void;
+  uniqueId?: string;
 };
 
 const IngredientsItem = ({
@@ -20,7 +21,7 @@ const IngredientsItem = ({
 }: TIngredientsItemProps): React.JSX.Element => {
   const [, dragRef] = useDrag<TIngredient, unknown>({
     type: 'ingredient',
-    item: ingredient,
+    item: { ...ingredient, uniqueId: nanoid() },
     // collect: (monitor) => ({
     //   isDragging: monitor.isDragging(),
     // }),
