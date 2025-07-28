@@ -60,3 +60,7 @@
   background-color: var(--background);
   border-radius: 44px 44px 88px 88px;
 }
+
+.hovered {
+  border: 2px dashed var(--colors-interface-accent);
+}

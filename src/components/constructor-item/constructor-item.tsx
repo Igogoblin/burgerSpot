@@ -68,7 +68,9 @@ const ConstructorItem = ({
       item.index = hoverIndex;
     },
   });
-  drag(drop(ref));
+  if (ingredient.type !== 'bun') {
+    drag(drop(ref));
+  }
 
   return (
     <div className={style.block} ref={ref as unknown as React.Ref<HTMLDivElement>}>

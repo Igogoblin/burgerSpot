@@ -18,7 +18,6 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import ModalOrder from '../modal/modal-order';
 
-import type { RootState } from '@/services/store';
 import type { TIngredient } from '@utils/types';
 
 import styles from './burger-constructor.module.css';
@@ -31,7 +30,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const { listIngredients, bun, ingredients } = useAppSelector(
     (store) => store.ingredients
   );
-  const orderNumber = useAppSelector((store: RootState) => store.order.number);
+  const orderNumber = useAppSelector((store) => store.order.number);
   const [{ isDragging }, dropRef] = useDrop<
     TIngredient,
     unknown,
@@ -79,14 +78,8 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
     const selectedIngredients = getIngredientObjects(listIngredients, ingredients);
 
-    // Добавляем булку дважды — в начало и конец (по условиям API)
-    const fullOrder = [
-      bun, // верхняя булка
-      ...selectedIngredients,
-      bun, // нижняя булка
-    ];
+    const fullOrder = [bun, ...selectedIngredients, bun];
 
-    // Преобразуем в массив _id
     const ingredientIds = (fullOrder as TIngredient[])
       .map((item) => item._id)
       .filter((id): id is string => typeof id === 'string');
@@ -133,13 +126,13 @@ export const BurgerConstructor = (): React.JSX.Element => {
             className={`${styles.constructorItemTop}`}
           />
         ) : (
-          <div className={styles.constructorItemTop}>Выберите булки</div>
+          <div className={`${styles.constructorItemTop}`}>Выберите булки</div>
         )}
 
         <div
           className={`${styles.constructor} ${!listIngredients.find((item) => item.type !== 'bun') ? styles.constructor_without_items : ''}`}
         >
-          {listIngredients.length > 0 ? (
+          {listIngredients.find((item) => item.type !== 'bun') ? (
             listIngredients
               .filter((item) => item.type !== 'bun')
               .map((item, index) => (
