@@ -67,6 +67,9 @@ export const BurgerIngredients = (): React.JSX.Element => {
         return 'Булки';
     }
   };
+  if (!Array.isArray(ingredients)) {
+    return <div>Loading... </div>;
+  }
 
   return (
     <section className={styles.burger_ingredients}>

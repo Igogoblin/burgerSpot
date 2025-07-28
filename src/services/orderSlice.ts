@@ -1,35 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { ORDER_API_URL } from './constants/constants';
+import { request } from './utils/request';
 
-import type {
-  IApiErrorResponse,
-  ICreateOrderResponse,
-  IOrderState,
-} from './types/types';
+import type { ICreateOrderResponse, IOrderState } from './types/types';
 
 export const createOrder = createAsyncThunk<number, string[], { rejectValue: string }>(
   'order/createOrder',
-  async (ingredientIds, { rejectWithValue }) => {
-    try {
-      const response = await fetch(ORDER_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ingredients: ingredientIds }),
-      });
-      const responseBody = (await response.json()) as ICreateOrderResponse;
-      if (!response.ok) {
-        const error = responseBody as IApiErrorResponse;
-        return rejectWithValue(error.message ?? 'Failed to create order');
-      }
-      const data: ICreateOrderResponse = responseBody;
-      return data.order.number;
-    } catch (error) {
-      console.error('Error creating order:', error);
-      return rejectWithValue('Failed to create order');
-    }
+  async (ingredientIds) => {
+    const data = await request<ICreateOrderResponse>('/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ingredients: ingredientIds }),
+    });
+
+    return data.order.number;
   }
 );
 

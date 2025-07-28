@@ -29,3 +29,13 @@ export type TIngredientsState = {
   isLoading: boolean;
   error: string | null;
 };
+
+export type IApiResponse = {
+  success: boolean;
+  message?: string;
+};
+
+export type IIngredientsResponse = {
+  success: boolean;
+  data: TIngredient[];
+};

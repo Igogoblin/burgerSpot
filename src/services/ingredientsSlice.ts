@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { request } from './utils/request';
 
-import type { TIngredientsState } from './types/types';
+import type { IIngredientsResponse, TIngredientsState } from './types/types';
 import type { TIngredient } from '@/utils/types';
 
 const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async () => {
-  return await request<TIngredient[]>('/ingredients');
+  const response = await request<IIngredientsResponse>('/ingredients');
+  return response.data;
 });
 
 const initialState: TIngredientsState = {
