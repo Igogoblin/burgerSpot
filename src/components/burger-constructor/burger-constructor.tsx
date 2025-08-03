@@ -1,6 +1,16 @@
+import {
+  setListIngredient,
+  setBun,
+  replaceListIngredient,
+  orderClear,
+} from '@/services/ingredientsSlice';
+import { clearOrder, createOrder } from '@/services/orderSlice';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
+import { nanoid } from 'nanoid';
 import { useState } from 'react';
+import { useDrop } from 'react-dnd';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerPrice from '../burger-price/burger-price';
 import ConstructorItem from '../constructor-item/constructor-item';
@@ -12,16 +22,34 @@ import type { TIngredient } from '@utils/types';
 
 import styles from './burger-constructor.module.css';
 
-type TBurgerConstructorProps = {
-  ingredients: TIngredient[];
-};
-
-export const BurgerConstructor = ({
-  ingredients,
-}: TBurgerConstructorProps): React.JSX.Element => {
+export const BurgerConstructor = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);
   const [isOrder, setIsOrdered] = useState(false);
+  const { listIngredients, bun, ingredients } = useAppSelector(
+    (store) => store.ingredients
+  );
+  const orderNumber = useAppSelector((store) => store.order.number);
+  const [{ isDragging }, dropRef] = useDrop<
+    TIngredient,
+    unknown,
+    { isDragging: boolean }
+  >({
+    accept: 'ingredient',
+    drop(ingredient) {
+      dispatch(
+        setListIngredient([
+          // ingredient._id ? { ...ingredient, _id: nanoid() } : ingredient,
+          { ...ingredient, uniqueId: nanoid() },
+        ])
+      );
+      dispatch(setBun(false));
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isOver(),
+    }),
+  });
 
   const handleClose = (): void => {
     setIsOpen(false);
@@ -31,48 +59,116 @@ export const BurgerConstructor = ({
     setIsOpen(true);
     setSelected(ingredient);
   };
-  const handleOpenOrder = (): void => {
+
+  function getIngredientObjects(
+    selected: { name: string }[],
+    allIngredients: TIngredient[]
+  ): TIngredient[] {
+    return selected
+      .map((sel) => allIngredients.find((item) => item.name === sel.name) ?? null)
+      .filter((item): item is TIngredient => item !== null);
+  }
+  const handleOpenOrder = async (): Promise<void> => {
     setIsOrdered(true);
+
+    if (!bun) {
+      alert('Пожалуйста, выберите булку для вашего заказа!');
+      return;
+    }
+
+    const selectedIngredients = getIngredientObjects(listIngredients, ingredients);
+
+    const fullOrder = [bun, ...selectedIngredients, bun];
+
+    const ingredientIds = (fullOrder as TIngredient[])
+      .map((item) => item._id)
+      .filter((id): id is string => typeof id === 'string');
+
+    try {
+      const result = await dispatch(createOrder(ingredientIds)).unwrap();
+      console.log(`Заказ успешно создан! Номер заказа: ${result}`);
+    } catch (error) {
+      console.error('Ошибка при создании заказа:', error);
+      alert('Не удалось создать заказ. Пожалуйста, попробуйте ещё раз.');
+    }
   };
   const handleCloseOrder = (): void => {
     setIsOrdered(false);
+    dispatch(orderClear());
+    dispatch(clearOrder());
   };
 
-  const bun = ingredients.find((item) => item.type === 'bun');
+  const moveCard = (dragIndex: number, hoverIndex: number): void => {
+    const dragCard = listIngredients.slice(1)[dragIndex];
+    const bun = listIngredients.find((item) => item.type === 'bun');
+    const newList = [...listIngredients.slice(1)];
+    newList.splice(dragIndex, 1);
+    newList.splice(hoverIndex, 0, dragCard);
+    dispatch(replaceListIngredient(bun ? [bun, ...newList] : [...newList]));
+  };
+
+  const totalPrice =
+    (listIngredients.find((item) => item.type === 'bun')?.price ?? 0) +
+    listIngredients.reduce((acc, item) => acc + item.price, 0);
 
   return (
     <section className={styles.burger_constructor}>
-      <div className={`${styles.constructor_container}`}>
-        {bun && (
+      <div
+        className={`${styles.constructor_container} ${isDragging && styles.constructor_container_dragging}`}
+        ref={dropRef as unknown as React.Ref<HTMLDivElement>}
+      >
+        {bun ? (
           <ConstructorItem
-            key={bun._id}
-            ingredient={bun}
+            key={`bun1`}
+            ingredient={listIngredients.find((item) => item.type === 'bun')!}
             onClick={handleOpen}
             type={'secondary'}
             className={`${styles.constructorItemTop}`}
           />
+        ) : (
+          <div className={`${styles.constructorItemTop}`}>Выберите булки</div>
         )}
-        <div className={styles.constructor}>
-          {ingredients
-            .filter((item) => item.type !== 'bun')
-            .map((item) => (
-              <ConstructorItem key={item._id} ingredient={item} onClick={handleOpen} />
-            ))}
-        </div>
 
-        {bun && (
+        <div
+          className={`${styles.constructor} ${!listIngredients.find((item) => item.type !== 'bun') ? styles.constructor_without_items : ''}`}
+        >
+          {listIngredients.find((item) => item.type !== 'bun') ? (
+            listIngredients
+              .filter((item) => item.type !== 'bun')
+              .map((item, index) => (
+                <ConstructorItem
+                  key={item.uniqueId}
+                  ingredient={item}
+                  onClick={handleOpen}
+                  moveCard={moveCard}
+                  index={index}
+                />
+              ))
+          ) : (
+            <div className={`${styles.constructor_without_items}`}>Выберите начинку</div>
+          )}
+        </div>
+        {bun ? (
           <ConstructorItem
-            key={`${bun._id}2`}
-            ingredient={bun}
+            key={`bun2`}
+            ingredient={listIngredients.find((item) => item.type === 'bun')!}
             onClick={handleOpen}
             type={'secondary'}
             className={`${styles.constructorItemBottom}`}
+            moveCard={moveCard}
           />
+        ) : (
+          <div className={`${styles.constructorItemBottom}`}>Выберите булки</div>
         )}
       </div>
       <div className={styles.total}>
-        <BurgerPrice price={ingredients.reduce((acc, item) => acc + item.price, 0)} />
-        <Button htmlType="button" type="primary" size="medium" onClick={handleOpenOrder}>
+        <BurgerPrice price={totalPrice} />
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={() => void handleOpenOrder()}
+        >
           Оформить заказ
         </Button>
       </div>
@@ -87,7 +183,7 @@ export const BurgerConstructor = ({
       {isOrder && (
         <>
           <Modal onClose={handleCloseOrder}>
-            <ModalOrder />
+            <ModalOrder numberOrder={orderNumber?.toString() ?? null} />
           </Modal>
           <ModalOverlay onClose={handleCloseOrder} />
         </>

@@ -14,9 +14,24 @@
 
 .constructor {
   width: 592px;
-  height: 480px;
+  height: auto;
+  max-height: 480px;
+  margin: 1em 0;
   overflow-x: auto;
   white-space: nowrap;
+}
+
+.constructor_without_items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1em 0;
+  background-color: var(--background);
+  border-radius: 40px;
+}
+
+.constructor_container_dragging {
+  margin: 0;
 }
 
 .total {
@@ -28,9 +43,24 @@
 }
 
 .constructorItemTop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  background-color: var(--background);
   border-radius: 88px 88px 2.5em 2.5em;
 }
 
 .constructorItemBottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  background-color: var(--background);
   border-radius: 44px 44px 88px 88px;
+}
+
+.hovered {
+  border: 2px dashed var(--colors-interface-accent);
 }

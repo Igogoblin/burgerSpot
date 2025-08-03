@@ -4,10 +4,14 @@ import orderConfirm from '../../images/orderConfirm.svg';
 
 import style from './modal.module.css';
 
-const ModalOrder = (): React.JSX.Element => {
+type TModalOrderProps = {
+  numberOrder: string | null;
+};
+
+const ModalOrder = ({ numberOrder }: TModalOrderProps): React.JSX.Element => {
   return (
     <div className={style.modalOrder}>
-      <h2 className={style.title}>034536</h2>
+      <h2 className={style.title}>{numberOrder}</h2>
       <p className={style.order}>идентификатор заказа</p>
 
       <div className={style.image}>
