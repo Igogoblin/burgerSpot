@@ -1,10 +1,16 @@
-import { BurgerConstructor } from '@/components/burger-constructor/burger-constructor';
-import { BurgerIngredients } from '@/components/ingredients-details/ingredients-details';
+// import { BurgerConstructor } from '@/components/burger-constructor/burger-constructor';
+// import { BurgerIngredients } from '@/components/ingredients-details/ingredients-details';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
+import { Home } from '@/pages/home/home';
+import { Login } from '@/pages/login/login';
+import { NotFound } from '@/pages/not-found/not-found';
+import { Register } from '@/pages/registration/register';
 import { fetchIngredients } from '@/services/ingredientsSlice';
 import { useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+// import { DndProvider } from 'react-dnd';
+// import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Route, Routes } from 'react-router';
 
 import { AppHeader } from '@components/app-header/app-header';
 
@@ -25,16 +31,15 @@ export const App = (): React.JSX.Element => {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
-      <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-        Соберите бургер
-      </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </main>
+      <Routes>
+        <Route path="/" element={<AppHeader />}>
+          <Route index element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </div>
   );
 };
