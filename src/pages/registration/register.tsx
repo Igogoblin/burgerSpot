@@ -4,57 +4,47 @@ import {
   Input,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-
-import style from './register.module.css';
-// import { ChangeEvent } from 'react';
+import { useState } from 'react';
 
 export const Register = (): React.JSX.Element => {
+  const [valueName, setValueName] = useState('');
+  const [valueEmail, setValueEmail] = useState('');
+  const [valuePassword, setValuePassword] = useState('');
   return (
-    <div>
-      <h1 className={style.title}>Регистрация</h1>
+    <div
+      style={{
+        margin: 'auto auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '24px',
+        alignItems: 'center',
+      }}
+    >
+      <p className="text text_type_main-medium">Регистрация</p>
       <Input
         type={'text'}
         placeholder={'Имя'}
-        value={''}
-        onChange={() => {
-          console.log('change');
-        }}
-        // onChange={
-        //   //   function (e: ChangeEvent<HTMLInputElement>): void {
-        //   //   throw new Error('Function not implemented.');
-        //   // }
-        // }
+        value={valueName}
+        onChange={(e) => setValueName(e.target.value)}
       />
-      {/* <Input type={'email'} placeholder={'E-mail'} /> */}
       <EmailInput
         name={'email'}
         placeholder={'E-mail'}
-        value={''}
-        onChange={() => {
-          console.log('change');
-        }}
-        // onChange={function (e: ChangeEvent<HTMLInputElement>): void {
-        //   throw new Error('Function not implemented.');
-        // }}
+        value={valueEmail}
+        onChange={(e) => setValueEmail(e.target.value)}
       />
-      {/* <Input type={'password'} placeholder={'Пароль'} /> */}
       <PasswordInput
         name={'password'}
         placeholder={'Пароль'}
-        value={''}
-        onChange={() => {
-          console.log('change');
-        }}
-        // onChange={function (e: React.ChangeEvent<HTMLInputElement>): void {
-        //   throw new Error('Function not implemented.');
-        // }}
+        value={valuePassword}
+        onChange={(e) => setValuePassword(e.target.value)}
       />
       <Button htmlType={'submit'} type="primary">
         Зарегистрироваться
       </Button>
       <p className="text text_type_main-default text_color_inactive mt-20">
-        Уже зарегистрированы?{' '}
-        <Button type="secondary" htmlType={'submit'}>
+        Уже зарегистрированы?
+        <Button type="secondary" htmlType={'submit'} extraClass="pl-2">
           Войти
         </Button>
       </p>
