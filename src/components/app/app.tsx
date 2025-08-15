@@ -5,6 +5,7 @@ import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
 import { Home } from '@/pages/home/home';
 import { Login } from '@/pages/login/login';
 import { NotFound } from '@/pages/not-found/not-found';
+import { Profile } from '@/pages/profile/profile';
 import { Register } from '@/pages/registration/register';
 import { fetchIngredients } from '@/services/ingredientsSlice';
 import { useEffect } from 'react';
@@ -34,9 +35,10 @@ export const App = (): React.JSX.Element => {
       <Routes>
         <Route path="/" element={<AppHeader />}>
           <Route index element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -79,11 +79,10 @@ export const BurgerConstructor = (): React.JSX.Element => {
     const selectedIngredients = getIngredientObjects(listIngredients, ingredients);
 
     const fullOrder = [bun, ...selectedIngredients, bun];
-
     const ingredientIds = (fullOrder as TIngredient[])
       .map((item) => item._id)
       .filter((id): id is string => typeof id === 'string');
-
+    if (!ingredientIds.length) return;
     try {
       const result = await dispatch(createOrder(ingredientIds)).unwrap();
       console.log(`Заказ успешно создан! Номер заказа: ${result}`);

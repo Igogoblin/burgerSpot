@@ -12,7 +12,7 @@ import type { TIngredient } from '@utils/types';
 
 import styles from './ingredients-details.module.css';
 
-export const BurgerIngredients = (): React.JSX.Element => {
+export const IngredientsDetails = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const { ingredients, type } = useAppSelector((store) => store.ingredients);
   const [ingredientOpen, setIngredientOpen] = useState<string[]>(['']);
