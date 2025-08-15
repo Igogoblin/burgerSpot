@@ -7,6 +7,7 @@ import { Login } from '@/pages/login/login';
 import { NotFound } from '@/pages/not-found/not-found';
 import { Profile } from '@/pages/profile/profile';
 import { Register } from '@/pages/registration/register';
+import { ResetPassword } from '@/pages/reset-password/reset-password';
 import { fetchIngredients } from '@/services/ingredientsSlice';
 import { useEffect } from 'react';
 // import { DndProvider } from 'react-dnd';
@@ -38,6 +39,7 @@ export const App = (): React.JSX.Element => {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
           <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
