@@ -1,40 +1,68 @@
 import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
+import { useState } from 'react';
 
 export const Login = (): React.JSX.Element => {
+  const [valueEmail, setValueEmail] = useState('');
+  const [valuePassword, setValuePassword] = useState('');
   return (
-    <div className="flex flex-col">
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '24px',
+        margin: 'auto auto',
+        alignItems: 'center',
+      }}
+    >
       <p className="text text_type_main-large">Вход</p>
       <Input
         type={'email'}
         placeholder={'E-mail'}
-        value={''}
-        onChange={() => {
-          console.log('email');
-        }}
+        value={valueEmail}
+        onChange={(e) => setValueEmail(e.target.value)}
       />
       <Input
         type={'password'}
         placeholder={'Пароль'}
-        value={''}
-        onChange={() => {
-          console.log('password');
-        }}
+        value={valuePassword}
+        onChange={(e) => setValuePassword(e.target.value)}
+        icon={'ShowIcon'}
       />
       <Button htmlType={'button'} type={'primary'} size={'large'}>
         Войти
       </Button>
-      <p className="text text_type_main-default text_color_inactive mt-20">
-        Вы — новый пользователь?
-        <Button htmlType={'button'} type={'secondary'} size={'small'}>
-          Зарегистрироваться
-        </Button>
-      </p>
-      <p className="text text_type_main-default text_color_inactive mt-4">
-        Забыли пароль?
-        <Button htmlType={'button'} type={'secondary'} size={'small'}>
-          Восстановить пароль
-        </Button>
-      </p>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          alignItems: 'center',
+          marginTop: '80px',
+        }}
+      >
+        <p className="text text_type_main-default text_color_inactive">
+          Вы — новый пользователь?
+          <Button
+            htmlType={'button'}
+            type={'secondary'}
+            size={'small'}
+            extraClass="pl-2"
+          >
+            Зарегистрироваться
+          </Button>
+        </p>
+        <p className="text text_type_main-default text_color_inactive">
+          Забыли пароль?
+          <Button
+            htmlType={'button'}
+            type={'secondary'}
+            size={'small'}
+            extraClass="pl-2"
+          >
+            Восстановить пароль
+          </Button>
+        </p>
+      </div>
     </div>
   );
 };
