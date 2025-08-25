@@ -1,9 +1,11 @@
 import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 export const Login = (): React.JSX.Element => {
   const [valueEmail, setValueEmail] = useState('');
   const [valuePassword, setValuePassword] = useState('');
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -47,6 +49,7 @@ export const Login = (): React.JSX.Element => {
             type={'secondary'}
             size={'small'}
             extraClass="pl-2"
+            onClick={() => void navigate('/register')}
           >
             Зарегистрироваться
           </Button>
@@ -58,6 +61,7 @@ export const Login = (): React.JSX.Element => {
             type={'secondary'}
             size={'small'}
             extraClass="pl-2"
+            onClick={() => void navigate('/forgot-password')}
           >
             Восстановить пароль
           </Button>

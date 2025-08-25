@@ -1,5 +1,6 @@
 import { Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
+import { NavLink, Outlet } from 'react-router';
 
 export const Profile = (): React.JSX.Element => {
   const [valueText, setValueText] = useState('');
@@ -17,9 +18,12 @@ export const Profile = (): React.JSX.Element => {
     >
       <div className="flex flex-col" style={{ maxWidth: '320px' }}>
         <p className="text text_type_main-medium pt-4 pb-4">Профиль</p>
-        <p className="text text_type_main-medium pt-4 pb-4 text_color_inactive">
+        <NavLink
+          to="/profile/orders"
+          className="text text_type_main-medium pt-4 pb-4 text_color_inactive"
+        >
           История заказов
-        </p>
+        </NavLink>
         <p className="text text_type_main-medium pt-4 pb-4 text_color_inactive">Выход</p>
         <p className="text text_type_main-default text_color_inactive mt-20">
           в этом разделе вы можете изменить свои персональные данные
@@ -48,6 +52,7 @@ export const Profile = (): React.JSX.Element => {
           icon={'EditIcon'}
         />
       </div>
+      <Outlet />
     </div>
   );
 };

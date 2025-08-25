@@ -4,7 +4,7 @@ import {
   Logo,
   ProfileIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import { Outlet } from 'react-router';
+import { NavLink, Outlet } from 'react-router';
 
 import styles from './app-header.module.css';
 
@@ -15,10 +15,12 @@ export const AppHeader = (): React.JSX.Element => {
         <nav className={`${styles.menu} p-4`}>
           <div className={styles.menu_part_left}>
             {/* Тут должны быть ссылки, а не например кнопки или абзацы */}
-            <a href="/" className={`${styles.link} ${styles.link_active}`}>
+            <NavLink to="/" className={`${styles.link} ${styles.link_active}`}>
+              {/* <a href="/" className={`${styles.link} ${styles.link_active}`}> */}
               <BurgerIcon type="primary" />
               <p className="text text_type_main-default ml-2">Конструктор</p>
-            </a>
+              {/* </a> */}
+            </NavLink>
             <a href="/feed" className={`${styles.link} ml-10`}>
               <ListIcon type="secondary" />
               <p className="text text_type_main-default ml-2">Лента заказов</p>

@@ -5,11 +5,13 @@ import {
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 export const Register = (): React.JSX.Element => {
   const [valueName, setValueName] = useState('');
   const [valueEmail, setValueEmail] = useState('');
   const [valuePassword, setValuePassword] = useState('');
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -44,7 +46,12 @@ export const Register = (): React.JSX.Element => {
       </Button>
       <p className="text text_type_main-default text_color_inactive mt-20">
         Уже зарегистрированы?
-        <Button type="secondary" htmlType={'submit'} extraClass="pl-2">
+        <Button
+          type="secondary"
+          htmlType={'submit'}
+          extraClass="pl-2"
+          onClick={() => void navigate('/login')}
+        >
           Войти
         </Button>
       </p>
