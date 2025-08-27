@@ -11,6 +11,6 @@ export type TIngredient = {
   image_large: string;
   image_mobile: string;
   __v: number;
-  onOpen?: (ingredient: TIngredient) => void;
+  onOpen?: (ingredient: TIngredient | null) => void;
   uniqueId?: string;
 };

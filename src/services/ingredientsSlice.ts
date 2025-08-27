@@ -28,7 +28,7 @@ const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    setIngredientDetails(state, action: { payload: TIngredient }) {
+    setIngredientDetails(state, action: { payload: TIngredient | null }) {
       state.ingredient = action.payload;
     },
     setType(state, action: { payload: string[] }) {

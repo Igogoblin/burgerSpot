@@ -1,11 +1,23 @@
+import { useAppDispatch } from '@/hooks/hooks';
+import { logout } from '@/services/auth/authThunk';
 import { Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { NavLink, Outlet } from 'react-router';
+import { NavLink, Outlet, useNavigate } from 'react-router';
 
 export const Profile = (): React.JSX.Element => {
   const [valueText, setValueText] = useState('');
   const [valueLogin, setValueLogin] = useState('');
   const [valuePassword, setValuePassword] = useState('');
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (): Promise<void> => {
+    const res = await dispatch(logout());
+    if (logout.fulfilled.match(res)) {
+      void navigate('/login');
+    }
+  };
 
   return (
     <div
@@ -24,7 +36,12 @@ export const Profile = (): React.JSX.Element => {
         >
           История заказов
         </NavLink>
-        <p className="text text_type_main-medium pt-4 pb-4 text_color_inactive">Выход</p>
+        <p
+          className="text text_type_main-medium pt-4 pb-4 text_color_inactive"
+          onClick={() => handleSubmit}
+        >
+          Выход
+        </p>
         <p className="text text_type_main-default text_color_inactive mt-20">
           в этом разделе вы можете изменить свои персональные данные
         </p>

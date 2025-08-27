@@ -1,4 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+// import { IngredientsDetails } from '../ingredients-details/ingredients-details';
+import { DetailsIngredient } from '@/pages/details-ingredient/detail-ingredient';
 import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
 import { Home } from '@/pages/home/home';
 import { Login } from '@/pages/login/login';
@@ -8,10 +10,13 @@ import { Profile } from '@/pages/profile/profile';
 import { Register } from '@/pages/registration/register';
 import { ResetPassword } from '@/pages/reset-password/reset-password';
 import { checkAuth } from '@/services/auth/authThunk';
-import { fetchIngredients } from '@/services/ingredientsSlice';
+import { fetchIngredients, setIngredientDetails } from '@/services/ingredientsSlice';
 import { useEffect } from 'react';
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useLocation, useNavigate } from 'react-router';
 
+import ModalIngredients from '../burger-ingredients/burger-ingredients';
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import Modal from '../modal/modal';
 import {
   ProtectedRouteElement,
   ResetPasswordProtectedRoute,
@@ -22,11 +27,19 @@ import { AppHeader } from '@components/app-header/app-header';
 import styles from './app.module.css';
 export const App = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector((store) => store.ingredients);
+  const { isLoading, error, ingredient } = useAppSelector((store) => store.ingredients);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = (location.state as { background?: Location } | null)?.background;
   useEffect(() => {
     void dispatch(checkAuth());
     void dispatch(fetchIngredients());
   }, [dispatch]);
+
+  const handleModalClose = (): void => {
+    dispatch(setIngredientDetails(null));
+    void navigate('/');
+  };
 
   if (error) {
     return <div>{error}</div>;
@@ -37,7 +50,7 @@ export const App = (): React.JSX.Element => {
 
   return (
     <div className={styles.app}>
-      <Routes>
+      <Routes location={background ?? location}>
         <Route path="/" element={<AppHeader />}>
           <Route index element={<Home />} />
           <Route
@@ -65,8 +78,25 @@ export const App = (): React.JSX.Element => {
             element={<ProtectedRouteElement element={<Profile />} />}
           />
           <Route path="*" element={<NotFound />} />
+          {/* <Route path="/ingredient/:id" element={<Home />} /> */}
+          <Route path="ingredients/:id" element={<DetailsIngredient />} />
         </Route>
       </Routes>
+      {background && ingredient && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <>
+                <Modal onClose={handleModalClose}>
+                  <ModalIngredients ingredient={ingredient} />
+                </Modal>
+                <ModalOverlay onClose={handleModalClose} />
+              </>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

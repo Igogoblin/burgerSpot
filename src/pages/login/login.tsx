@@ -1,3 +1,5 @@
+import { useAppDispatch } from '@/hooks/hooks';
+import { login } from '@/services/auth/authThunk';
 import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -6,6 +8,14 @@ export const Login = (): React.JSX.Element => {
   const [valueEmail, setValueEmail] = useState('');
   const [valuePassword, setValuePassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = async (): Promise<void> => {
+    const res = await dispatch(login({ email: valueEmail, password: valuePassword }));
+    if (login.fulfilled.match(res)) {
+      void navigate('/');
+    }
+  };
   return (
     <div
       style={{
@@ -30,7 +40,12 @@ export const Login = (): React.JSX.Element => {
         onChange={(e) => setValuePassword(e.target.value)}
         icon={'ShowIcon'}
       />
-      <Button htmlType={'button'} type={'primary'} size={'large'}>
+      <Button
+        htmlType={'button'}
+        type={'primary'}
+        size={'large'}
+        onClick={() => void handleSubmit()}
+      >
         Войти
       </Button>
       <div

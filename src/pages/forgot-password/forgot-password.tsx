@@ -12,7 +12,7 @@ export const ForgotPassword = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (): Promise<void> => {
-    // Диспетчируем thunk
+    // Диспатч thunk
     const res = await dispatch(forgotPassword(valueEmail));
 
     // Проверяем, что thunk был успешно выполнен

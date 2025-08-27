@@ -1,8 +1,20 @@
+import { useAppDispatch } from '@/hooks/hooks';
+import { forgotPassword } from '@/services/auth/authThunk';
 import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 export const ResetPassword = (): React.JSX.Element => {
   const [valueEmail, setValueEmail] = useState('');
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (): Promise<void> => {
+    const res = await dispatch(forgotPassword(valueEmail));
+    if (forgotPassword.fulfilled.match(res)) {
+      void navigate('/reset-password');
+    }
+  };
   return (
     <div
       style={{
@@ -21,7 +33,12 @@ export const ResetPassword = (): React.JSX.Element => {
         onChange={(e) => setValueEmail(e.target.value)}
         value={valueEmail}
       />
-      <Button htmlType={'button'} type={'primary'} size={'medium'}>
+      <Button
+        htmlType={'button'}
+        type={'primary'}
+        size={'medium'}
+        onClick={() => void handleSubmit()}
+      >
         Восстановить
       </Button>
       <p className="text text_type_main-default text_color_inactive mt-20">
