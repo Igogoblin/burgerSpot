@@ -3,12 +3,14 @@ import {
   setBun,
   replaceListIngredient,
   orderClear,
+  setIngredientDetails,
 } from '@/services/ingredientsSlice';
 import { clearOrder, createOrder } from '@/services/orderSlice';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
+import { useLocation, useNavigate } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
@@ -27,10 +29,13 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);
   const [isOrder, setIsOrdered] = useState(false);
-  const { listIngredients, bun, ingredients } = useAppSelector(
+  const { listIngredients, bun, ingredients, ingredient } = useAppSelector(
     (store) => store.ingredients
   );
+  const user = useAppSelector((store) => store.auth.user);
   const orderNumber = useAppSelector((store) => store.order.number);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [{ isDragging }, dropRef] = useDrop<
     TIngredient,
     unknown,
@@ -69,6 +74,10 @@ export const BurgerConstructor = (): React.JSX.Element => {
       .filter((item): item is TIngredient => item !== null);
   }
   const handleOpenOrder = async (): Promise<void> => {
+    if (user.isAuthChecked || !user) {
+      void navigate('/login', { state: { from: location } });
+      return;
+    }
     setIsOrdered(true);
 
     if (!bun) {
@@ -95,6 +104,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
     setIsOrdered(false);
     dispatch(orderClear());
     dispatch(clearOrder());
+    dispatch(setIngredientDetails(ingredient));
+    if (ingredient) {
+      void navigate(`/ingredients/${ingredient._id}`, {
+        state: { background: location },
+      });
+    }
   };
 
   const moveCard = (dragIndex: number, hoverIndex: number): void => {

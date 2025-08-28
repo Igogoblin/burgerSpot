@@ -171,12 +171,12 @@ export const checkAuth = createAsyncThunk<void, void, { state: { auth: AuthState
   'auth/checkAuth',
   async (_, { dispatch }) => {
     try {
-      const refreshToken = localStorage.getItem('refreshToken');
-      if (refreshToken) {
-        const res = await dispatch(getUser());
-        // Дополнительная проверка на случай, если getUser завершился с ошибкой
-        if (getUser.rejected.match(res)) {
-          // Если getUser не удалось, сбросим токен
+      const storedRefreshToken = localStorage.getItem('refreshToken');
+      if (storedRefreshToken) {
+        const refreshRes = await dispatch(refreshToken());
+        if (refreshToken.fulfilled.match(refreshRes)) {
+          await dispatch(getUser());
+        } else {
           localStorage.removeItem('refreshToken');
         }
       }

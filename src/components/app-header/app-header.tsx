@@ -4,11 +4,14 @@ import {
   Logo,
   ProfileIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import { NavLink, Outlet } from 'react-router';
+import { NavLink, Outlet, useLocation } from 'react-router';
 
 import styles from './app-header.module.css';
 
 export const AppHeader = (): React.JSX.Element => {
+  const location = useLocation();
+  const activeClass = 'text_color_inactive';
+
   return (
     <>
       <header className={styles.header}>
@@ -18,12 +21,20 @@ export const AppHeader = (): React.JSX.Element => {
             <NavLink to="/" className={`${styles.link} ${styles.link_active}`}>
               {/* <a href="/" className={`${styles.link} ${styles.link_active}`}> */}
               <BurgerIcon type="primary" />
-              <p className="text text_type_main-default ml-2">Конструктор</p>
+              <p
+                className={`text text_type_main-default ml-2 ${location.pathname === '/' ? '' : activeClass}`}
+              >
+                Конструктор
+              </p>
               {/* </a> */}
             </NavLink>
             <a href="/feed" className={`${styles.link} ml-10`}>
               <ListIcon type="secondary" />
-              <p className="text text_type_main-default ml-2">Лента заказов</p>
+              <p
+                className={`text text_type_main-default ml-2 ${location.pathname === '/feed' ? '' : activeClass}`}
+              >
+                Лента заказов
+              </p>
             </a>
           </div>
           <div className={styles.logo}>
@@ -31,7 +42,11 @@ export const AppHeader = (): React.JSX.Element => {
           </div>
           <a href="/profile" className={`${styles.link} ${styles.link_position_last}`}>
             <ProfileIcon type="secondary" />
-            <p className="text text_type_main-default ml-2">Личный кабинет</p>
+            <p
+              className={`text text_type_main-default ml-2 ${location.pathname === '/profile' ? '' : activeClass}`}
+            >
+              Личный кабинет
+            </p>
           </a>
         </nav>
       </header>
