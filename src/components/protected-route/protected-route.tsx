@@ -1,5 +1,6 @@
 import { useAppSelector } from '@/hooks/hooks';
 import { Navigate, useLocation } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 
 import type { ReactElement } from 'react';
 
@@ -15,7 +16,14 @@ export const ProtectedRouteElement = ({
 
   // Если проверка авторизации ещё идет, не делаем ничего
   if (isLoading || !isAuthChecked) {
-    return <p>Loading... </p>; // Или любой другой компонент-заглушка, например, лоадер
+    return (
+      <ClipLoader
+        color="#4c4cff"
+        size={150}
+        aria-label="Загрузка Spinner"
+        cssOverride={{ margin: 'auto auto' }}
+      />
+    ); // Или любой другой компонент-заглушка, например, лоадер
   }
 
   // Если пользователь не авторизован и пытается попасть на защищённый маршрут
