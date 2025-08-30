@@ -9,16 +9,17 @@ export const ProtectedRouteElement = ({
 }: {
   element: ReactElement;
 }): ReactElement => {
-  const { isAuthChecked, data } = useAppSelector((store) => store.auth.user);
+  const { user } = useAppSelector((store) => store.auth);
+  const { isAuthChecked, isLoading } = useAppSelector((store) => store.auth.user);
   const location = useLocation();
 
-  // Пока не проверили статус авторизации, не делаем ничего
-  if (!isAuthChecked) {
-    return <></>; // Или любой другой компонент-заглушка, например, лоадер
+  // Если проверка авторизации ещё идет, не делаем ничего
+  if (isLoading || !isAuthChecked) {
+    return <p>Loading... </p>; // Или любой другой компонент-заглушка, например, лоадер
   }
 
   // Если пользователь не авторизован и пытается попасть на защищённый маршрут
-  if (!data) {
+  if (!user.data) {
     // Перенаправляем на страницу входа и сохраняем исходный маршрут в состоянии
     return <Navigate to="/login" state={{ from: location }} />;
   }
@@ -33,13 +34,14 @@ export const UnprotectedRouteElement = ({
 }: {
   element: ReactElement;
 }): ReactElement => {
-  const { data } = useAppSelector((store) => store.auth.user);
+  const { user } = useAppSelector((store) => store.auth);
   const location = useLocation();
   const from = (location.state as { from: string })?.from || '/';
 
   // Если пользователь авторизован, перенаправляем его на главную или предыдущую страницу
-  if (data) {
-    return <Navigate to={from} />;
+  if (user?.data) {
+    const target = from && from !== location.pathname ? from : '/';
+    return <Navigate to={target} replace />;
   }
 
   // Если пользователь не авторизован, отображаем запрошенный компонент
@@ -52,7 +54,7 @@ export const ResetPasswordProtectedRoute = ({
 }: {
   element: ReactElement;
 }): ReactElement => {
-  const { email } = useAppSelector((store) => store.auth.forgot);
+  const email = useAppSelector((store) => store.auth.forgot?.email ?? null);
   const location = useLocation();
 
   // Если не было запроса на восстановление пароля (нет email в сторе),

@@ -21,8 +21,11 @@ import {
   ProtectedRouteElement,
   ResetPasswordProtectedRoute,
   UnprotectedRouteElement,
+  // UnprotectedRouteProfileElement,
 } from '../protected-route/protected-route';
 import { AppHeader } from '@components/app-header/app-header';
+
+import type { Location } from 'react-router';
 
 import styles from './app.module.css';
 export const App = (): React.JSX.Element => {
@@ -30,7 +33,9 @@ export const App = (): React.JSX.Element => {
   const { isLoading, error, ingredient } = useAppSelector((store) => store.ingredients);
   const location = useLocation();
   const navigate = useNavigate();
-  const background = (location.state as { background?: Location } | null)?.background;
+  // const background = (location.state as { background?: Location } | null)?.background;
+  const background: Location | null =
+    (location.state as { background?: Location } | null)?.background ?? null;
   useEffect(() => {
     void dispatch(checkAuth());
     void dispatch(fetchIngredients());

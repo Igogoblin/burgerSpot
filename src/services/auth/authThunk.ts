@@ -150,11 +150,12 @@ export const getUser = createAsyncThunk<
 
 export const updateUser = createAsyncThunk<
   { user: IUser },
-  { name: string; email: string },
+  { name?: string; email?: string; password?: string },
   { rejectValue: string; state: { auth: AuthState } }
 >('auth/updateUser', async (body, { rejectWithValue, getState }) => {
   try {
     const token = getState().auth.user.accessToken;
+    console.log('updateUser - accessToken: токен актуален ' + (token ? 'да' : 'нет'));
     if (!token) {
       return rejectWithValue('Нет accessToken');
     }

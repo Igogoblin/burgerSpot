@@ -8,6 +8,7 @@ import {
   getUser,
   updateUser,
   checkAuth,
+  forgotPassword,
 } from './authThunk';
 
 import type { AuthState } from '../types/types';
@@ -142,7 +143,23 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state) => {
         state.user.isAuthChecked = true;
+      })
+      // forgotPassword
+      .addCase(forgotPassword.pending, (state) => {
+        state.forgot.isLoading = true;
+        state.forgot.error = null;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.forgot.email = action.meta.arg;
+        state.forgot.isLoading = false;
+        state.forgot.error = null;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.forgot.error = action.payload ?? 'Ошибка запроса на восстановление пароля';
+        state.forgot.isLoading = false;
       });
+    // checkUser
+    // .addCase(checkUser.fulfilled, (state) => {
   },
 });
 

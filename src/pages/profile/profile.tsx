@@ -1,21 +1,46 @@
-import { useAppDispatch } from '@/hooks/hooks';
-import { logout } from '@/services/auth/authThunk';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { updateUser } from '@/services/auth/authThunk';
 import { Input } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { NavLink, Outlet } from 'react-router';
+
+import type { FocusEvent, MouseEvent } from 'react';
 
 export const Profile = (): React.JSX.Element => {
+  const { user } = useAppSelector((store) => store.auth);
   const [valueText, setValueText] = useState('');
   const [valueLogin, setValueLogin] = useState('');
   const [valuePassword, setValuePassword] = useState('');
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleSubmit = async (): Promise<void> => {
-    const res = await dispatch(logout());
-    if (logout.fulfilled.match(res)) {
-      void navigate('/login');
+  useEffect(() => {
+    if (user?.data) {
+      setValueText(user.data.name ?? '');
+      setValueLogin(user.data.email ?? '');
+    }
+  }, [user]);
+
+  const handleSave = async (
+    e:
+      | MouseEvent<HTMLDivElement, MouseEvent>
+      | FocusEvent<HTMLInputElement, Element>
+      | undefined
+  ): Promise<void> => {
+    if (e) {
+      e.preventDefault();
+    }
+    const res = await dispatch(
+      updateUser({
+        name: valueText,
+        email: valueLogin,
+        password: valuePassword,
+      })
+    );
+    if (updateUser.fulfilled.match(res)) {
+      console.log('Профиль обновлен:', res.payload.user);
+      setValuePassword('');
     }
   };
 
@@ -38,7 +63,7 @@ export const Profile = (): React.JSX.Element => {
         </NavLink>
         <p
           className="text text_type_main-medium pt-4 pb-4 text_color_inactive"
-          onClick={() => handleSubmit}
+          // onClick={() => handleSubmit}
         >
           Выход
         </p>
@@ -52,6 +77,10 @@ export const Profile = (): React.JSX.Element => {
           placeholder={'Имя'}
           value={valueText}
           onChange={(e) => setValueText(e.target.value)}
+          // onIconClick={() => void handleSave()}
+          onBlur={(e) => {
+            void handleSave(e);
+          }}
           icon={'EditIcon'}
         />
         <Input
@@ -59,6 +88,10 @@ export const Profile = (): React.JSX.Element => {
           placeholder={'Логин'}
           value={valueLogin}
           onChange={(e) => setValueLogin(e.target.value)}
+          // onIconClick={(e) => void handleSave(e)}
+          onBlur={(e) => {
+            void handleSave(e);
+          }}
           icon={'EditIcon'}
         />
         <Input
@@ -67,6 +100,11 @@ export const Profile = (): React.JSX.Element => {
           value={valuePassword}
           onChange={(e) => setValuePassword(e.target.value)}
           icon={'EditIcon'}
+          // onIconClick={(e) => void handleSave(e)}
+          onBlur={(e) => {
+            void handleSave(e);
+          }}
+          title="изменить пароль"
         />
       </div>
       <Outlet />

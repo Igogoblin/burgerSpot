@@ -75,7 +75,7 @@ export const getUserApi = async (
 ): Promise<{ success: boolean; user: IUser }> => {
   const res = await request<{ success: boolean; user: IUser }>(`/auth/user`, {
     method: 'GET',
-    headers: { Authorization: accessToken },
+    headers: { Authorization: withBearer(accessToken) },
   });
   return res;
 };
@@ -88,9 +88,12 @@ export const updateUserApi = async (
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: accessToken,
+      Authorization: withBearer(accessToken),
     },
     body: JSON.stringify(body),
   });
   return res;
 };
+
+const withBearer = (token: string): string =>
+  token.startsWith('Bearer ') ? token : `Bearer ${token}`;

@@ -74,16 +74,16 @@ export const BurgerConstructor = (): React.JSX.Element => {
       .filter((item): item is TIngredient => item !== null);
   }
   const handleOpenOrder = async (): Promise<void> => {
-    if (user.isAuthChecked || !user) {
+    if (!user.data) {
       void navigate('/login', { state: { from: location } });
       return;
     }
-    setIsOrdered(true);
 
     if (!bun) {
       alert('Пожалуйста, выберите булку для вашего заказа!');
       return;
     }
+    setIsOrdered(true);
 
     const selectedIngredients = getIngredientObjects(listIngredients, ingredients);
 
