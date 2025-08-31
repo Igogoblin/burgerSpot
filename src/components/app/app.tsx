@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-// import { IngredientsDetails } from '../ingredients-details/ingredients-details';
 import { DetailsIngredient } from '@/pages/details-ingredient/detail-ingredient';
 import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
 import { Home } from '@/pages/home/home';
@@ -23,7 +22,6 @@ import {
   ProtectedRouteElement,
   ResetPasswordProtectedRoute,
   UnprotectedRouteElement,
-  // UnprotectedRouteProfileElement,
 } from '../protected-route/protected-route';
 import { AppHeader } from '@components/app-header/app-header';
 
@@ -83,12 +81,7 @@ export const App = (): React.JSX.Element => {
             <Route index element={<ProfileDetails />} />
             <Route path="orders" element={<OrderHistory />} />
           </Route>
-          {/* <Route
-            path="profile/*"
-            element={<ProtectedRouteElement element={<Profile />} />}
-          /> */}
           <Route path="*" element={<NotFound />} />
-          {/* <Route path="/ingredient/:id" element={<Home />} /> */}
           <Route path="ingredients/:id" element={<DetailsIngredient />} />
         </Route>
       </Routes>

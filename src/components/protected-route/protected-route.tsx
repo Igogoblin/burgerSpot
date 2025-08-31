@@ -23,7 +23,7 @@ export const ProtectedRouteElement = ({
         aria-label="Загрузка Spinner"
         cssOverride={{ margin: 'auto auto' }}
       />
-    ); // Или любой другой компонент-заглушка, например, лоадер
+    );
   }
 
   // Если пользователь не авторизован и пытается попасть на защищённый маршрут
@@ -77,7 +77,7 @@ export const ResetPasswordProtectedRoute = ({
   const email = useAppSelector((store) => store.auth.forgot?.email ?? null);
   // const location = useLocation();
 
-  // Если не было запроса на восстановление пароля (нет email в сторе),
+  // Если не было запроса на восстановление пароля (нет email в store),
   // перенаправляем на страницу forgot-password
   if (!email) {
     return <Navigate to="/forgot-password" replace />;

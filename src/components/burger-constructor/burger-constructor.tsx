@@ -43,12 +43,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   >({
     accept: 'ingredient',
     drop(ingredient) {
-      dispatch(
-        setListIngredient([
-          // ingredient._id ? { ...ingredient, _id: nanoid() } : ingredient,
-          { ...ingredient, uniqueId: nanoid() },
-        ])
-      );
+      dispatch(setListIngredient([{ ...ingredient, uniqueId: nanoid() }]));
       dispatch(setBun(false));
     },
     collect: (monitor) => ({

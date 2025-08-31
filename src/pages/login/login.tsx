@@ -27,11 +27,6 @@ export const Login = (): React.JSX.Element => {
     if (login.fulfilled.match(resultAction)) {
       void navigate('/');
     }
-    // ): Promise<void> => {
-    //   const res = await dispatch(login({ email: valueEmail, password: valuePassword }));
-    //   if (login.fulfilled.match(res)) {
-    //     void navigate('/');
-    //   }
   };
   return (
     <div

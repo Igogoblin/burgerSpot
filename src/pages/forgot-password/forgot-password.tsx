@@ -8,7 +8,6 @@ export const ForgotPassword = (): React.JSX.Element => {
   const [valueEmail, setValueEmail] = useState('');
   const [er, setEr] = useState<string | null>(null);
   const navigate = useNavigate();
-  //  const orderNumber = useAppSelector((store) => store.order.number);
   const { isLoading, error } = useAppSelector((store) => store.auth.forgot);
   const dispatch = useAppDispatch();
   console.log('Component rendered');

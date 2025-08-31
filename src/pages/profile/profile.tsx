@@ -8,9 +8,12 @@ export const Profile = (): React.JSX.Element => {
     <div
       style={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'start',
         gap: '60px',
+        maxWidth: '1240px',
+        width: '100%',
         margin: 'auto auto',
+        padding: '16px',
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '320px' }}>
@@ -26,12 +29,7 @@ export const Profile = (): React.JSX.Element => {
         >
           История заказов
         </NavLink>
-        <p
-          className="text text_type_main-medium pt-4 pb-4 text_color_inactive"
-          // onClick={() => handleSubmit}
-        >
-          Выход
-        </p>
+        <p className="text text_type_main-medium pt-4 pb-4 text_color_inactive">Выход</p>
         <p className="text text_type_main-default text_color_inactive mt-20">
           в этом разделе вы можете изменить свои персональные данные
         </p>
