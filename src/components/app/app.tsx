@@ -5,6 +5,7 @@ import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
 import { Home } from '@/pages/home/home';
 import { Login } from '@/pages/login/login';
 import { NotFound } from '@/pages/not-found/not-found';
+import { OrderHistory } from '@/pages/order-history/order-history';
 // import { Orders } from '@/pages/orders/orders';
 import { Profile } from '@/pages/profile/profile';
 import { Register } from '@/pages/registration/register';
@@ -17,6 +18,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
+import { ProfileDetails } from '../profile-details/profile-details';
 import {
   ProtectedRouteElement,
   ResetPasswordProtectedRoute,
@@ -31,16 +33,14 @@ import styles from './app.module.css';
 export const App = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const { isLoading, error, ingredient } = useAppSelector((store) => store.ingredients);
-  const { user } = useAppSelector((store) => store.auth);
   const location = useLocation();
   const navigate = useNavigate();
-  // const background = (location.state as { background?: Location } | null)?.background;
+
   const background: Location | null =
     (location.state as { background?: Location } | null)?.background ?? null;
   useEffect(() => {
     void dispatch(checkAuth());
     void dispatch(fetchIngredients());
-    console.log('user in App: ', user);
   }, [dispatch]);
 
   const handleModalClose = (): void => {
@@ -79,11 +79,14 @@ export const App = (): React.JSX.Element => {
           <Route
             path="profile"
             element={<ProtectedRouteElement element={<Profile />} />}
-          />
-          <Route
+          >
+            <Route index element={<ProfileDetails />} />
+            <Route path="orders" element={<OrderHistory />} />
+          </Route>
+          {/* <Route
             path="profile/*"
             element={<ProtectedRouteElement element={<Profile />} />}
-          />
+          /> */}
           <Route path="*" element={<NotFound />} />
           {/* <Route path="/ingredient/:id" element={<Home />} /> */}
           <Route path="ingredients/:id" element={<DetailsIngredient />} />

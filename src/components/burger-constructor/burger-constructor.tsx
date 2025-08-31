@@ -74,6 +74,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
       .filter((item): item is TIngredient => item !== null);
   }
   const handleOpenOrder = async (): Promise<void> => {
+    console.log('user is logged in:', user);
     if (!user.data) {
       void navigate('/login', { state: { from: location } });
       return;
@@ -181,7 +182,9 @@ export const BurgerConstructor = (): React.JSX.Element => {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => void handleOpenOrder()}
+          onClick={() => {
+            void handleOpenOrder();
+          }}
         >
           Оформить заказ
         </Button>

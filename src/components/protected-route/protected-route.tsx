@@ -44,8 +44,20 @@ export const UnprotectedRouteElement = ({
 }): ReactElement => {
   const { user } = useAppSelector((store) => store.auth);
   const location = useLocation();
+  const { isAuthChecked, isLoading } = useAppSelector((store) => store.auth.user);
   const from = (location.state as { from: string })?.from || '/';
 
+  // Пока идёт проверка авторизации — показываем спиннер
+  if (isLoading || !isAuthChecked) {
+    return (
+      <ClipLoader
+        color="#4c4cff"
+        size={100}
+        aria-label="Загрузка Spinner"
+        cssOverride={{ margin: 'auto auto' }}
+      />
+    );
+  }
   // Если пользователь авторизован, перенаправляем его на главную или предыдущую страницу
   if (user?.data) {
     const target = from && from !== location.pathname ? from : '/';
@@ -63,14 +75,12 @@ export const ResetPasswordProtectedRoute = ({
   element: ReactElement;
 }): ReactElement => {
   const email = useAppSelector((store) => store.auth.forgot?.email ?? null);
-  const location = useLocation();
+  // const location = useLocation();
 
   // Если не было запроса на восстановление пароля (нет email в сторе),
   // перенаправляем на страницу forgot-password
   if (!email) {
-    return (
-      <Navigate to="/forgot-password" state={{ from: location.pathname }} replace />
-    );
+    return <Navigate to="/forgot-password" replace />;
   }
 
   // Если запрос был, отображаем страницу сброса пароля
