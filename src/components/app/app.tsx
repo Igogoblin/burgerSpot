@@ -31,6 +31,7 @@ import styles from './app.module.css';
 export const App = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const { isLoading, error, ingredient } = useAppSelector((store) => store.ingredients);
+  const { user } = useAppSelector((store) => store.auth);
   const location = useLocation();
   const navigate = useNavigate();
   // const background = (location.state as { background?: Location } | null)?.background;
@@ -39,6 +40,7 @@ export const App = (): React.JSX.Element => {
   useEffect(() => {
     void dispatch(checkAuth());
     void dispatch(fetchIngredients());
+    console.log('user in App: ', user);
   }, [dispatch]);
 
   const handleModalClose = (): void => {

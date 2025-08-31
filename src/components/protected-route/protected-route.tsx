@@ -29,7 +29,7 @@ export const ProtectedRouteElement = ({
   // Если пользователь не авторизован и пытается попасть на защищённый маршрут
   if (!user.data) {
     // Перенаправляем на страницу входа и сохраняем исходный маршрут в состоянии
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   // Если пользователь авторизован, отображаем запрошенный компонент
@@ -68,7 +68,9 @@ export const ResetPasswordProtectedRoute = ({
   // Если не было запроса на восстановление пароля (нет email в сторе),
   // перенаправляем на страницу forgot-password
   if (!email) {
-    return <Navigate to="/forgot-password" state={{ from: location }} />;
+    return (
+      <Navigate to="/forgot-password" state={{ from: location.pathname }} replace />
+    );
   }
 
   // Если запрос был, отображаем страницу сброса пароля
