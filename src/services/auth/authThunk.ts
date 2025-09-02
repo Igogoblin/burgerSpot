@@ -132,17 +132,38 @@ export const getUser = createAsyncThunk<
   { user: IUser },
   void,
   { rejectValue: string; state: { auth: AuthState } }
->('auth/getUser', async (_, { rejectWithValue, getState }) => {
+>('auth/getUser', async (_, { rejectWithValue, getState, dispatch }) => {
   try {
-    const token = getState().auth.user.accessToken;
+    const state = getState().auth;
+    const token = state.user.accessToken;
+
+    // проверим есть ли accessToken, если нет, пробуем получить новый
     if (!token) {
-      return rejectWithValue('Нет accessToken');
+      const refreshRes = await dispatch(refreshToken());
+
+      // проверим был ли вызов токена обновлен
+      if (refreshToken.fulfilled.match(refreshRes)) {
+        const newAccessToken = refreshRes.payload.accessToken;
+
+        // выполняем новый вызов getUserApi с новым accessToken
+        const res = await getUserApi(newAccessToken);
+
+        if (!res.success) {
+          return rejectWithValue('Не удалось получить пользователя');
+        }
+        return { user: res.user };
+      } else {
+        // если не удалось обновить токен
+        return rejectWithValue('Не удалось обновить токен');
+      }
+    } else {
+      // если accessToken актуален
+      const res = await getUserApi(token);
+      if (!res.success) {
+        return rejectWithValue('Не удалось получить пользователя');
+      }
+      return { user: res.user };
     }
-    const res = await getUserApi(token);
-    if (!res.success) {
-      return rejectWithValue('Не удалось получить пользователя');
-    }
-    return { user: res.user };
   } catch (err: unknown) {
     return rejectWithValue((err as Error).message ?? 'Ошибка сети');
   }
