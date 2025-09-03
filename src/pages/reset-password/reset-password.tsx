@@ -1,67 +1,5 @@
-// import { useAppDispatch } from '@/hooks/hooks';
-// import { resetPassword } from '@/services/auth/authThunk';
-// import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
-// import { useState } from 'react';
-// import { useNavigate } from 'react-router';
-
-// export const ResetPassword = (): React.JSX.Element => {
-//   const [valueEmail, setValueEmail] = useState('');
-//   const dispatch = useAppDispatch();
-//   const navigate = useNavigate();
-
-//   const handleSubmit = async (
-//     e: React.FormEvent<HTMLFormElement> | undefined
-//   ): Promise<void> => {
-//     if (e) {
-//       e.preventDefault();
-//     }
-//     if (!valueEmail) {
-//       return;
-//     }
-//     const res = await dispatch(resetPassword(valueEmail));
-//     if (resetPassword.fulfilled.match(res)) {
-//       void navigate('/login');
-//     }
-//   };
-//   return (
-//     <div
-//       style={{
-//         display: 'flex',
-//         flexDirection: 'column',
-//         gap: '24px',
-//         maxWidth: '480px',
-//         alignItems: 'center',
-//         margin: 'auto auto',
-//       }}
-//     >
-//       <p className="text text_type_main-medium">Восстановление пароля</p>
-//       <form
-//         style={{ display: 'contents' }}
-//         onSubmit={(e) => {
-//           void handleSubmit(e);
-//         }}
-//       >
-//         <Input
-//           type={'email'}
-//           placeholder={'Укажите e-mail'}
-//           onChange={(e) => setValueEmail(e.target.value)}
-//           value={valueEmail}
-//         />
-//         <Button htmlType={'submit'} type={'primary'} size={'medium'}>
-//           Восстановить
-//         </Button>
-//       </form>
-//       <p className="text text_type_main-default text_color_inactive mt-20">
-//         Вспомнили пароль?
-//         <Button htmlType={'button'} type={'secondary'} size={'small'} extraClass="pl-2">
-//           Войти
-//         </Button>
-//       </p>
-//     </div>
-//   );
-// };
-
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { useForm } from '@/hooks/useForm';
 import { forgotPassword, resetPassword } from '@/services/auth/authThunk';
 import {
   Button,
@@ -73,14 +11,17 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 export const ResetPassword = (): React.JSX.Element => {
-  const [valueEmail, setValueEmail] = useState('');
-  const [valuePassword, setValuePassword] = useState('');
-  const [valueToken, setValueToken] = useState('');
   const [isEmailSubmitted, setIsEmailSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const { values, handleChange } = useForm({
+    email: '',
+    password: '',
+    token: '',
+  });
   const { isLoading: forgotLoading, error: forgotError } = useAppSelector(
     (store) => store.auth.forgot
   );
@@ -94,11 +35,11 @@ export const ResetPassword = (): React.JSX.Element => {
 
     // Логика для первого шага: отправка почты для получения токена
     if (!isEmailSubmitted) {
-      if (!valueEmail) {
+      if (!values.email) {
         setFormError('Пожалуйста, укажите e-mail');
         return;
       }
-      const res = await dispatch(forgotPassword(valueEmail));
+      const res = await dispatch(forgotPassword(values.email));
       if (forgotPassword.fulfilled.match(res)) {
         setIsEmailSubmitted(true);
       } else if (forgotPassword.rejected.match(res)) {
@@ -107,12 +48,12 @@ export const ResetPassword = (): React.JSX.Element => {
     }
     // Логика для второго шага: отправка нового пароля и токена
     else {
-      if (!valuePassword || !valueToken) {
+      if (!values.password || !values.token) {
         setFormError('Пожалуйста, заполните все поля');
         return;
       }
       const res = await dispatch(
-        resetPassword({ password: valuePassword, token: valueToken })
+        resetPassword({ password: values.password, token: values.token })
       );
       if (resetPassword.fulfilled.match(res)) {
         void navigate('/login');
@@ -154,8 +95,8 @@ export const ResetPassword = (): React.JSX.Element => {
           <EmailInput
             name={'email'}
             placeholder={'Укажите e-mail'}
-            value={valueEmail}
-            onChange={(e) => setValueEmail(e.target.value)}
+            value={values.email}
+            onChange={handleChange}
           />
         ) : (
           // Верстка для второго шага: ввод нового пароля и токена
@@ -163,14 +104,15 @@ export const ResetPassword = (): React.JSX.Element => {
             <PasswordInput
               name={'password'}
               placeholder={'Введите новый пароль'}
-              value={valuePassword}
-              onChange={(e) => setValuePassword(e.target.value)}
+              value={values.password}
+              onChange={handleChange}
             />
             <Input
               type={'text'}
               placeholder={'Введите код из письма'}
-              value={valueToken}
-              onChange={(e) => setValueToken(e.target.value)}
+              value={values.token}
+              onChange={handleChange}
+              name={'token'}
             />
           </>
         )}
@@ -180,8 +122,8 @@ export const ResetPassword = (): React.JSX.Element => {
           size={'medium'}
           disabled={
             !isEmailSubmitted
-              ? forgotLoading || !valueEmail
-              : resetLoading || !valuePassword || !valueToken
+              ? forgotLoading || !values.email
+              : resetLoading || !values.password || !values.token
           }
         >
           {getButtonText()}

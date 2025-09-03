@@ -1,4 +1,5 @@
 import { useAppDispatch } from '@/hooks/hooks';
+import { useForm } from '@/hooks/useForm';
 import {
   Button,
   EmailInput,
@@ -11,22 +12,25 @@ import { useNavigate } from 'react-router';
 import { register } from '../../services/auth/authThunk';
 
 export const Register = (): React.JSX.Element => {
-  const [valueName, setValueName] = useState('');
-  const [valueEmail, setValueEmail] = useState('');
-  const [valuePassword, setValuePassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const { values, handleChange } = useForm({
+    name: '',
+    email: '',
+    password: '',
+  });
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setError(null);
-    if (!valueName || !valueEmail || !valuePassword) {
+    if (!values.name || !values.email || !values.password) {
       setError('Заполните все поля');
       return;
     }
     const resultAction = await dispatch(
-      register({ name: valueName, email: valueEmail, password: valuePassword })
+      register({ name: values.name, email: values.email, password: values.password })
     );
     if (register.rejected.match(resultAction)) {
       setError('Ошибка при регистрации');
@@ -56,20 +60,21 @@ export const Register = (): React.JSX.Element => {
         <Input
           type={'text'}
           placeholder={'Имя'}
-          value={valueName}
-          onChange={(e) => setValueName(e.target.value)}
+          value={values.name}
+          onChange={handleChange}
+          name={'name'}
         />
         <EmailInput
           name={'email'}
           placeholder={'E-mail'}
-          value={valueEmail}
-          onChange={(e) => setValueEmail(e.target.value)}
+          value={values.email}
+          onChange={handleChange}
         />
         <PasswordInput
           name={'password'}
           placeholder={'Пароль'}
-          value={valuePassword}
-          onChange={(e) => setValuePassword(e.target.value)}
+          value={values.password}
+          onChange={handleChange}
         />
         {error && (
           <p className="text text_type_main-default text_color_error mt-2">{error}</p>
