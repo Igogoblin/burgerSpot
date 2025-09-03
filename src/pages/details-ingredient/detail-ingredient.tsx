@@ -34,19 +34,8 @@ export const DetailsIngredient = (): React.JSX.Element => {
     );
   }
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 'auto',
-        marginBottom: 'auto',
-      }}
-    >
-      <h2 className={style.title} style={{ margin: 'auto auto' }}>
-        Детали ингредиента
-      </h2>
+    <div className={`${style.container}`}>
+      <h2 className={style.title}>Детали ингредиента</h2>
       <img
         src={currentIngredient.image_large}
         alt={currentIngredient.name}

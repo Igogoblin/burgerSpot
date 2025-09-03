@@ -4,6 +4,8 @@ import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import style from './forgot-password.module.css';
+
 export const ForgotPassword = (): React.JSX.Element => {
   const [valueEmail, setValueEmail] = useState('');
   const [er, setEr] = useState<string | null>(null);
@@ -26,24 +28,13 @@ export const ForgotPassword = (): React.JSX.Element => {
     }
   };
   return (
-    <div
-      style={{
-        margin: 'auto auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '24px',
-      }}
-    >
+    <div className={style.form}>
       <p className="text text_type_main-medium">Восстановление пароля</p>
       <form
         onSubmit={(e) => {
           void handleSubmit(e);
         }}
-        style={
-          // { display: 'contents' }
-          { display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center' }
-        }
+        className={style.container}
       >
         <Input
           type={'email'}
