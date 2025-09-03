@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router';
 
 import { register } from '../../services/auth/authThunk';
 
+import style from './register.module.css';
+
 export const Register = (): React.JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -41,21 +43,13 @@ export const Register = (): React.JSX.Element => {
   };
 
   return (
-    <div
-      style={{
-        margin: 'auto auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '24px',
-        alignItems: 'center',
-      }}
-    >
+    <div className={style.container}>
       <p className="text text_type_main-medium">Регистрация</p>
       <form
         onSubmit={(e) => {
           void handleSubmit(e);
         }}
-        style={{ display: 'contents' }}
+        className={style.form}
       >
         <Input
           type={'text'}

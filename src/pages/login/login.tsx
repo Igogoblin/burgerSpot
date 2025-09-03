@@ -5,9 +5,9 @@ import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import style from './login.module.css';
+
 export const Login = (): React.JSX.Element => {
-  // const [valueEmail, setValueEmail] = useState('');
-  // const [valuePassword, setValuePassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -32,21 +32,13 @@ export const Login = (): React.JSX.Element => {
     }
   };
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '24px',
-        margin: 'auto auto',
-        alignItems: 'center',
-      }}
-    >
+    <div className={style.container}>
       <p className="text text_type_main-large">Вход</p>
       <form
         onSubmit={(e) => {
           void handleSubmit(e);
         }}
-        style={{ display: 'contents' }}
+        className={style.form}
       >
         <Input
           type={'email'}
@@ -70,15 +62,7 @@ export const Login = (): React.JSX.Element => {
           Войти
         </Button>
       </form>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          alignItems: 'center',
-          marginTop: '80px',
-        }}
-      >
+      <div className={style.container_footer}>
         <p className="text text_type_main-default text_color_inactive">
           Вы — новый пользователь?
           <Button

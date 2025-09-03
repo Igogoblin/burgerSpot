@@ -10,6 +10,7 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import style from './reset-password.module.css';
 export const ResetPassword = (): React.JSX.Element => {
   const [isEmailSubmitted, setIsEmailSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -73,19 +74,10 @@ export const ResetPassword = (): React.JSX.Element => {
   const currentError = formError ?? forgotError ?? resetError;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '24px',
-        maxWidth: '480px',
-        alignItems: 'center',
-        margin: 'auto auto',
-      }}
-    >
+    <div className={style.container}>
       <p className="text text_type_main-medium">Восстановление пароля</p>
       <form
-        style={{ display: 'contents' }}
+        className={style.form}
         onSubmit={(e) => {
           void handleSubmit(e);
         }}

@@ -1,22 +1,13 @@
 import { NavLink, Outlet, useLocation } from 'react-router';
 
+import style from './profile.module.css';
 export const Profile = (): React.JSX.Element => {
   const location = useLocation();
   const activeClass = 'text_color_inactive';
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'start',
-        gap: '60px',
-        maxWidth: '1240px',
-        width: '100%',
-        margin: 'auto auto',
-        padding: '16px',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '320px' }}>
+    <div className={style.container}>
+      <div className={style.container_profile}>
         <NavLink
           to="/profile"
           className={`text text_type_main-medium pt-4 pb-4 ${location.pathname === '/profile' ? '' : activeClass}`}
@@ -34,7 +25,7 @@ export const Profile = (): React.JSX.Element => {
           в этом разделе вы можете изменить свои персональные данные
         </p>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div className={style.profile}>
         <Outlet />
       </div>
     </div>

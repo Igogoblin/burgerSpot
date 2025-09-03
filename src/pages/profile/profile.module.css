@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  justify-content: start;
+
+  /* flex-direction: column; */
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  max-width: 1240px;
+  margin: auto;
+  padding: 16px;
+}
+
+.container_profile {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+
+  /* align-items: center;
+  gap: 24px; */
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
