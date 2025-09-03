@@ -28,26 +28,29 @@ export const AppHeader = (): React.JSX.Element => {
               </p>
               {/* </a> */}
             </NavLink>
-            <a href="/feed" className={`${styles.link} ml-10`}>
+            <NavLink to="/feed" className={`${styles.link} ml-10`}>
               <ListIcon type="secondary" />
               <p
                 className={`text text_type_main-default ml-2 ${location.pathname === '/feed' ? '' : activeClass}`}
               >
                 Лента заказов
               </p>
-            </a>
+            </NavLink>
           </div>
           <div className={styles.logo}>
             <Logo />
           </div>
-          <a href="/profile" className={`${styles.link} ${styles.link_position_last}`}>
+          <NavLink
+            to="/profile"
+            className={`${styles.link} ${styles.link_position_last}`}
+          >
             <ProfileIcon type="secondary" />
             <p
               className={`text text_type_main-default ml-2 ${location.pathname === '/profile' ? '' : activeClass}`}
             >
               Личный кабинет
             </p>
-          </a>
+          </NavLink>
         </nav>
       </header>
       <Outlet />
