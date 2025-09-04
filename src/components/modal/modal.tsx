@@ -2,6 +2,8 @@ import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import ReactDom from 'react-dom';
 
+import ModalOverlay from '../modal-overlay/modal-overlay';
+
 import style from './modal.module.css';
 
 type TModalProps = {
@@ -28,10 +30,13 @@ const Modal = ({ children, onClose }: TModalProps): React.JSX.Element | null => 
   }
 
   return ReactDom.createPortal(
-    <div className={style.modal}>
-      <CloseIcon type="primary" onClick={onClose} className={style.modalClose} />
-      <div>{children}</div>
-    </div>,
+    <>
+      <ModalOverlay onClose={onClose} />
+      <div className={style.modal}>
+        <CloseIcon type="primary" onClick={onClose} className={style.modalClose} />
+        <div>{children}</div>
+      </div>
+    </>,
     modalRoot
   );
 };

@@ -15,7 +15,6 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
-import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import { ProfileDetails } from '../profile-details/profile-details';
 import {
@@ -90,12 +89,9 @@ export const App = (): React.JSX.Element => {
           <Route
             path="/ingredients/:id"
             element={
-              <>
-                <Modal onClose={handleModalClose}>
-                  <ModalIngredients ingredient={ingredient} />
-                </Modal>
-                <ModalOverlay onClose={handleModalClose} />
-              </>
+              <Modal onClose={handleModalClose}>
+                <ModalIngredients ingredient={ingredient} />
+              </Modal>
             }
           />
         </Routes>
