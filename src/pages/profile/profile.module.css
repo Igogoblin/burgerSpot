@@ -26,3 +26,20 @@
   align-items: center;
   gap: 24px;
 }
+
+.logout {
+  padding: 16px 0;
+  color: var(--text-inactive-color);
+  font-weight: 700;
+  font-size: 24px;
+  font-family: 'JetBrains Mono', serif;
+  line-height: 1.25;
+  text-align: start;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: var(--text-primary-color);
+}
