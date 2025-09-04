@@ -12,7 +12,7 @@ import { ResetPassword } from '@/pages/reset-password/reset-password';
 import { checkAuth } from '@/services/auth/authThunk';
 import { fetchIngredients, setIngredientDetails } from '@/services/ingredientsSlice';
 import { useEffect } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
 
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import Modal from '../modal/modal';
@@ -27,14 +27,20 @@ import { AppHeader } from '@components/app-header/app-header';
 import type { Location } from 'react-router';
 
 import styles from './app.module.css';
+
 export const App = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const { isLoading, error, ingredient } = useAppSelector((store) => store.ingredients);
+  const { isLoading, error, ingredients } = useAppSelector((store) => store.ingredients);
   const location = useLocation();
   const navigate = useNavigate();
 
   const background: Location | null =
     (location.state as { background?: Location } | null)?.background ?? null;
+  const IngredientModalContent = (): React.JSX.Element | null => {
+    const { id } = useParams();
+    const ingredient = ingredients.find((item) => item._id === id);
+    return ingredient ? <ModalIngredients ingredient={ingredient} /> : null;
+  };
   useEffect(() => {
     void dispatch(checkAuth());
     void dispatch(fetchIngredients());
@@ -84,13 +90,13 @@ export const App = (): React.JSX.Element => {
           <Route path="ingredients/:id" element={<DetailsIngredient />} />
         </Route>
       </Routes>
-      {background && ingredient && (
+      {background && (
         <Routes>
           <Route
             path="/ingredients/:id"
             element={
               <Modal onClose={handleModalClose}>
-                <ModalIngredients ingredient={ingredient} />
+                <IngredientModalContent />
               </Modal>
             }
           />

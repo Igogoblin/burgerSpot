@@ -10,7 +10,7 @@ import style from '../../components/burger-ingredients/burger-ingredients.module
 export const DetailsIngredient = (): React.JSX.Element => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const ingredients = useAppSelector((store) => store.ingredients.ingredients);
+  const { ingredients, isLoading } = useAppSelector((store) => store.ingredients);
   const [currentIngredient, setIngredient] = useState<TIngredient | null>(null);
   console.log(ingredients);
   useEffect(() => {
@@ -26,10 +26,17 @@ export const DetailsIngredient = (): React.JSX.Element => {
     }
   }, [ingredients, id]);
 
+  if (isLoading) {
+    return (
+      <div className="text text_type_main-large mt-10">
+        <p>Loading...</p>
+      </div>
+    );
+  }
   if (!currentIngredient) {
     return (
       <div className="text text_type_main-large mt-10">
-        <p></p>
+        <p>ингредиента не найдено</p>
       </div>
     );
   }
