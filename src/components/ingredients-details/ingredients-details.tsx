@@ -4,10 +4,7 @@ import { useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-// import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import IngredientsItem from '../ingredients-item/ingredients-item';
-// import ModalOverlay from '../modal-overlay/modal-overlay';
-// import Modal from '../modal/modal';
 
 import type { TIngredient } from '@utils/types';
 
@@ -17,8 +14,6 @@ export const IngredientsDetails = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const { ingredients, type } = useAppSelector((store) => store.ingredients);
   const [ingredientOpen, setIngredientOpen] = useState<string[]>(['']);
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [selected, setSelected] = useState<TIngredient | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({
     bun: null,
@@ -43,24 +38,13 @@ export const IngredientsDetails = (): React.JSX.Element => {
       setIngredientOpen([closestType]);
     }
   };
-  // const handleClose = (): void => {
-  //   dispatch(setIngredientDetails(null));
-  //   setIsOpen(false);
-  //   setSelected(null);
-  //   void navigate('/');
-  // };
 
   const inputIngredientType = (value: string): void => {
     dispatch(setType([value]));
     setIngredientOpen([value]);
   };
   const choice = (ingredient: TIngredient): void => {
-    // console.log(ingredient);
-    // console.log('ingredients', ingredients);
     dispatch(setIngredientDetails(ingredient));
-    // setSelected(ingredient);
-    // setIsOpen(true);
-    // void navigate('/ingredient/' + ingredient._id);
     void navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
   };
   const showTitle = (str: string): string => {
@@ -138,14 +122,6 @@ export const IngredientsDetails = (): React.JSX.Element => {
           );
         })}
       </div>
-      {/* {isOpen && selected && (
-        <>
-          <Modal onClose={handleClose}>
-            <ModalIngredients ingredient={selected} />
-          </Modal>
-          <ModalOverlay onClose={handleClose} />
-        </>
-      )} */}
     </section>
   );
 };

@@ -33,11 +33,7 @@ export const Profile = (): React.JSX.Element => {
         >
           История заказов
         </NavLink>
-        <button
-          className={style.logout}
-          // className="text text_type_main-medium pt-4 pb-4 text_color_inactive cursor-pointer"
-          onClick={() => void handleLogout()}
-        >
+        <button className={style.logout} onClick={() => void handleLogout()}>
           Выход
         </button>
         <p className="text text_type_main-default text_color_inactive mt-20">

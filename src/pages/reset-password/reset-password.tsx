@@ -75,7 +75,9 @@ export const ResetPassword = (): React.JSX.Element => {
 
   return (
     <div className={style.container}>
-      <p className="text text_type_main-medium">Восстановление пароля</p>
+      <p className={`text text_type_main-medium ${style.title}`}>
+        Восстановление пароля
+      </p>
       <form
         className={style.form}
         onSubmit={(e) => {
@@ -124,7 +126,7 @@ export const ResetPassword = (): React.JSX.Element => {
       {currentError && (
         <p className="text text_type_main-default text_color_error">{currentError}</p>
       )}
-      <p className="text text_type_main-default text_color_inactive mt-20">
+      <p className="text text_type_main-default text_color_inactive mt-14">
         Вспомнили пароль?
         <Button
           htmlType={'button'}
