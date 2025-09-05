@@ -13,6 +13,7 @@
 
 .title {
   margin: 0 auto 0 0;
+  margin: auto;
   font-weight: 700;
   font-size: 2.25em;
   line-height: 1.5em;
@@ -46,4 +47,13 @@
   height: 3.5em;
   font-size: 1em;
   line-height: 1.5em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }

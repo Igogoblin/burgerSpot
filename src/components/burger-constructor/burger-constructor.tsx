@@ -3,12 +3,14 @@ import {
   setBun,
   replaceListIngredient,
   orderClear,
+  setIngredientDetails,
 } from '@/services/ingredientsSlice';
 import { clearOrder, createOrder } from '@/services/orderSlice';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
+import { useLocation, useNavigate } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
@@ -27,10 +29,13 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<TIngredient | null>(null);
   const [isOrder, setIsOrdered] = useState(false);
-  const { listIngredients, bun, ingredients } = useAppSelector(
+  const { listIngredients, bun, ingredients, ingredient } = useAppSelector(
     (store) => store.ingredients
   );
+  const user = useAppSelector((store) => store.auth.user);
   const orderNumber = useAppSelector((store) => store.order.number);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [{ isDragging }, dropRef] = useDrop<
     TIngredient,
     unknown,
@@ -38,12 +43,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   >({
     accept: 'ingredient',
     drop(ingredient) {
-      dispatch(
-        setListIngredient([
-          // ingredient._id ? { ...ingredient, _id: nanoid() } : ingredient,
-          { ...ingredient, uniqueId: nanoid() },
-        ])
-      );
+      dispatch(setListIngredient([{ ...ingredient, uniqueId: nanoid() }]));
       dispatch(setBun(false));
     },
     collect: (monitor) => ({
@@ -69,21 +69,25 @@ export const BurgerConstructor = (): React.JSX.Element => {
       .filter((item): item is TIngredient => item !== null);
   }
   const handleOpenOrder = async (): Promise<void> => {
-    setIsOrdered(true);
+    console.log('user is logged in:', user);
+    if (!user.data) {
+      void navigate('/login', { state: { from: location } });
+      return;
+    }
 
     if (!bun) {
       alert('Пожалуйста, выберите булку для вашего заказа!');
       return;
     }
+    setIsOrdered(true);
 
     const selectedIngredients = getIngredientObjects(listIngredients, ingredients);
 
     const fullOrder = [bun, ...selectedIngredients, bun];
-
     const ingredientIds = (fullOrder as TIngredient[])
       .map((item) => item._id)
       .filter((id): id is string => typeof id === 'string');
-
+    if (!ingredientIds.length) return;
     try {
       const result = await dispatch(createOrder(ingredientIds)).unwrap();
       console.log(`Заказ успешно создан! Номер заказа: ${result}`);
@@ -96,6 +100,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
     setIsOrdered(false);
     dispatch(orderClear());
     dispatch(clearOrder());
+    dispatch(setIngredientDetails(ingredient));
+    if (ingredient) {
+      void navigate(`/ingredients/${ingredient._id}`, {
+        state: { background: location },
+      });
+    }
   };
 
   const moveCard = (dragIndex: number, hoverIndex: number): void => {
@@ -167,7 +177,9 @@ export const BurgerConstructor = (): React.JSX.Element => {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => void handleOpenOrder()}
+          onClick={() => {
+            void handleOpenOrder();
+          }}
         >
           Оформить заказ
         </Button>

@@ -1,20 +1,55 @@
-import { BurgerConstructor } from '@/components/burger-constructor/burger-constructor';
-import { BurgerIngredients } from '@/components/ingredients-details/ingredients-details';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { fetchIngredients } from '@/services/ingredientsSlice';
+import { DetailsIngredient } from '@/pages/details-ingredient/detail-ingredient';
+import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
+import { Home } from '@/pages/home/home';
+import { Login } from '@/pages/login/login';
+import { NotFound } from '@/pages/not-found/not-found';
+import { OrderHistory } from '@/pages/order-history/order-history';
+// import { Orders } from '@/pages/orders/orders';
+import { Profile } from '@/pages/profile/profile';
+import { Register } from '@/pages/registration/register';
+import { ResetPassword } from '@/pages/reset-password/reset-password';
+import { checkAuth } from '@/services/auth/authThunk';
+import { fetchIngredients, setIngredientDetails } from '@/services/ingredientsSlice';
 import { useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
 
+import ModalIngredients from '../burger-ingredients/burger-ingredients';
+import Modal from '../modal/modal';
+import { ProfileDetails } from '../profile-details/profile-details';
+import {
+  ProtectedRouteElement,
+  ResetPasswordProtectedRoute,
+  UnprotectedRouteElement,
+} from '../protected-route/protected-route';
 import { AppHeader } from '@components/app-header/app-header';
 
+import type { Location } from 'react-router';
+
 import styles from './app.module.css';
+
 export const App = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector((store) => store.ingredients);
+  const { isLoading, error, ingredients } = useAppSelector((store) => store.ingredients);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const background: Location | null =
+    (location.state as { background?: Location } | null)?.background ?? null;
+  const IngredientModalContent = (): React.JSX.Element | null => {
+    const { id } = useParams();
+    const ingredient = ingredients.find((item) => item._id === id);
+    return ingredient ? <ModalIngredients ingredient={ingredient} /> : null;
+  };
   useEffect(() => {
+    void dispatch(checkAuth());
     void dispatch(fetchIngredients());
   }, [dispatch]);
+
+  const handleModalClose = (): void => {
+    dispatch(setIngredientDetails(null));
+    void navigate('/');
+  };
 
   if (error) {
     return <div>{error}</div>;
@@ -25,16 +60,48 @@ export const App = (): React.JSX.Element => {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
-      <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-        Соберите бургер
-      </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </main>
+      <Routes location={background ?? location}>
+        <Route path="/" element={<AppHeader />}>
+          <Route index element={<Home />} />
+          <Route
+            path="register"
+            element={<UnprotectedRouteElement element={<Register />} />}
+          />
+          <Route
+            path="login"
+            element={<UnprotectedRouteElement element={<Login />} />}
+          />
+          <Route
+            path="forgot-password"
+            element={<UnprotectedRouteElement element={<ForgotPassword />} />}
+          />
+          <Route
+            path="reset-password"
+            element={<ResetPasswordProtectedRoute element={<ResetPassword />} />}
+          />
+          <Route
+            path="profile"
+            element={<ProtectedRouteElement element={<Profile />} />}
+          >
+            <Route index element={<ProfileDetails />} />
+            <Route path="orders" element={<OrderHistory />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+          <Route path="ingredients/:id" element={<DetailsIngredient />} />
+        </Route>
+      </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal onClose={handleModalClose}>
+                <IngredientModalContent />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

@@ -50,6 +50,10 @@ body {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Fix for scrollbar */
 
 @supports (scrollbar-color: auto) {
