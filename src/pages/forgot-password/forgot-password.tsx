@@ -31,7 +31,7 @@ export const ForgotPassword = (): React.JSX.Element => {
   };
   return (
     <div className={style.form}>
-      <p className="text text_type_main-medium">Восстановление пароля</p>
+      <p className="text text_type_main-medium ">Восстановление пароля</p>
       <form
         onSubmit={(e) => {
           void handleSubmit(e);
@@ -43,6 +43,7 @@ export const ForgotPassword = (): React.JSX.Element => {
           placeholder={'Укажите e-mail'}
           value={values.email}
           onChange={handleChange}
+          name={'email'}
         />
         <Button
           htmlType={'submit'}
@@ -57,7 +58,7 @@ export const ForgotPassword = (): React.JSX.Element => {
           <p className="text text_type_main-default text_color_error">{error}</p>
         )}
         {er && <p className="text text_type_main-default text_color_error">{er}</p>}
-        <p className="text text_type_main-default text_color_inactive mt-20">
+        <p className="text text_type_main-default text_color_inactive mt-15">
           Вспомнили пароль?
           <Button
             htmlType={'button'}

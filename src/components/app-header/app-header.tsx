@@ -19,7 +19,6 @@ export const AppHeader = (): React.JSX.Element => {
           <div className={styles.menu_part_left}>
             {/* Тут должны быть ссылки, а не например кнопки или абзацы */}
             <NavLink to="/" className={`${styles.link} ${styles.link_active}`}>
-              {/* <a href="/" className={`${styles.link} ${styles.link_active}`}> */}
               <BurgerIcon type="primary" />
               <p
                 className={`text text_type_main-default ml-2 ${location.pathname === '/' ? '' : activeClass}`}

@@ -75,7 +75,6 @@ export const ResetPasswordProtectedRoute = ({
   element: ReactElement;
 }): ReactElement => {
   const email = useAppSelector((store) => store.auth.forgot?.email ?? null);
-  // const location = useLocation();
 
   // Если не было запроса на восстановление пароля (нет email в store),
   // перенаправляем на страницу forgot-password
