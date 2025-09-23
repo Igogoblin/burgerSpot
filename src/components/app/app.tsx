@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { DetailsIngredient } from '@/pages/details-ingredient/detail-ingredient';
+import { Feed } from '@/pages/feed/feed';
 import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
 import { Home } from '@/pages/home/home';
 import { Login } from '@/pages/login/login';
@@ -88,6 +89,7 @@ export const App = (): React.JSX.Element => {
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="ingredients/:id" element={<DetailsIngredient />} />
+          <Route path="feed" element={<Feed />} />
         </Route>
       </Routes>
       {background && (
