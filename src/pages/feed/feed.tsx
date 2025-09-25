@@ -4,6 +4,7 @@ import { Stats } from '@/components/stats/stats';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { wsConnecting, wsDisconnecting } from '@/services/orders/ordersSlice';
 import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router';
 
 import style from './feed.module.css';
 export const Feed = (): React.JSX.Element => {
@@ -11,6 +12,7 @@ export const Feed = (): React.JSX.Element => {
   const { orders, total, totalToday, completedOrders, pendingOrders } = useAppSelector(
     (store) => store.orders
   );
+  const location = useLocation();
   useEffect(() => {
     dispatch(wsConnecting());
     return (): void => {
@@ -25,7 +27,14 @@ export const Feed = (): React.JSX.Element => {
         <ScrollContainer>
           {/* <p>Feed Items </p> */}
           {orders.map((order) => (
-            <FeedItem key={order._id} order={order} />
+            <Link
+              key={order._id}
+              to={`/feed/${order.number}`}
+              state={{ background: location }}
+              className={`${style.link}`}
+            >
+              <FeedItem key={order._id} order={order} />
+            </Link>
           ))}
         </ScrollContainer>
         <Stats

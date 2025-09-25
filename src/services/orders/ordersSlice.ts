@@ -17,7 +17,7 @@ const feedSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    wsConnecting(state) {
+    wsConnecting(state, _action: PayloadAction<{ token?: string } | undefined>) {
       state.connected = false;
     },
     wsDisconnecting(state) {

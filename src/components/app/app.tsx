@@ -5,8 +5,9 @@ import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
 import { Home } from '@/pages/home/home';
 import { Login } from '@/pages/login/login';
 import { NotFound } from '@/pages/not-found/not-found';
-import { OrderHistory } from '@/pages/order-history/order-history';
-// import { Orders } from '@/pages/orders/orders';
+import { OrderModal } from '@/pages/order-modal/order-modal';
+// import { OrderModal } from '@/pages/order-history/order-modal';
+import { Orders } from '@/pages/orders/orders';
 import { Profile } from '@/pages/profile/profile';
 import { Register } from '@/pages/registration/register';
 import { ResetPassword } from '@/pages/reset-password/reset-password';
@@ -42,10 +43,13 @@ export const App = (): React.JSX.Element => {
     const ingredient = ingredients.find((item) => item._id === id);
     return ingredient ? <ModalIngredients ingredient={ingredient} /> : null;
   };
-  const OrderModalContent = (): React.JSX.Element => {
+  const OrderModalContent = (): React.JSX.Element | null => {
     const { number } = useParams();
+    const orders = useAppSelector((store) => store.orders.orders);
+    const order = orders.find((item) => item.number === Number(number));
     // return order ? <DetailsOrders order={order} /> : null;
-    return <div>Order # {number}</div>;
+    // const order = null;
+    return order ? <OrderModal order={order}></OrderModal> : null;
   };
   const handleOrderModalClose = (): void => {
     void navigate(-1);
@@ -93,7 +97,7 @@ export const App = (): React.JSX.Element => {
             element={<ProtectedRouteElement element={<Profile />} />}
           >
             <Route index element={<ProfileDetails />} />
-            <Route path="orders" element={<OrderHistory />} />
+            <Route path="orders" element={<Orders />} />
             {/* <Route path="orders/:number" element={<DetailsOrders />} /> */}
           </Route>
           <Route path="*" element={<NotFound />} />
