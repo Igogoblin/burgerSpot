@@ -1,3 +1,4 @@
+// import { ingredients } from './../../utils/ingredients';
 import type { TIngredient } from '@/utils/types';
 
 export type ICreateOrderResponse = {
@@ -74,4 +75,32 @@ export type AuthState = {
     isLoading: boolean;
     error: string | null;
   };
+};
+
+// for WebSocket order feed
+export type TOrder = {
+  ingredients: string[];
+  _id: string;
+  status: 'done' | 'created' | 'pending';
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+};
+
+export type TOrdersState = {
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+  connected: boolean;
+  error?: string | null;
+  completedOrders: TOrder[];
+  pendingOrders: TOrder[] | null;
+};
+
+export type TOrdersResponse = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
 };

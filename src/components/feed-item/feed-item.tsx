@@ -1,20 +1,79 @@
+import { useAppSelector } from '@/hooks/hooks';
+
 import BurgerPrice from '../burger-price/burger-price';
+
+import type { TOrder } from '@/services/types/types';
+import type { TIngredient } from '@/utils/types';
 
 import style from './feed-item.module.css';
 
-export const FeedItem = (): React.JSX.Element => {
+type TFeedItemProps = {
+  order: TOrder;
+};
+export const FeedItem = ({ order }: TFeedItemProps): React.JSX.Element => {
+  const { name, number, createdAt } = order;
+  const { ingredients } = useAppSelector((store) => store.ingredients);
+  const orderIngredients = ingredients.filter((item) =>
+    order.ingredients.find((id) => id === item._id)
+  );
+  const getOrderPrice = (order: TOrder, ingredients: TIngredient[]): number => {
+    return order.ingredients.reduce((sum, id) => {
+      const item = ingredients.find((i) => i._id === id);
+      return item ? sum + item.price : sum;
+    }, 0);
+  };
   return (
     <div className={style.feed_item}>
       <div className={style.feed_header}>
-        <p className="text text_type_digits-default">#034535</p>
+        <p className="text text_type_digits-default">#{number}</p>
         <p className="text text_type_main-default text_color_inactive">
-          сегодня в 10:00
+          {new Date(createdAt).toLocaleString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
         </p>
       </div>
-      <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
+      <p className="text text_type_main-medium">{name}</p>
       <div className={style.feed_footer}>
-        0000000
-        <BurgerPrice price={123} isCenter={false} />
+        <div className={`${style.image_container}`}>
+          {orderIngredients.slice(0, 6).map((item, index) => (
+            <div
+              key={item._id}
+              className={`${style.image_wrapper}`}
+              style={{
+                zIndex: orderIngredients.length - index,
+              }}
+            >
+              {index < 5 || orderIngredients.length <= 6 ? (
+                <div className={`${style.image_overlay}`}>
+                  <img
+                    src={item.image_mobile}
+                    alt={item.name}
+                    className={`${style.image}`}
+                  />
+                </div>
+              ) : (
+                <div className={`${style.image_overlay}`}>
+                  <img
+                    src={item.image_mobile}
+                    alt={item.name}
+                    className={`${style.image}`}
+                  />
+                  <div className={`${style.image_overlay_text}`}>
+                    <span className="text text_type_digits-default">
+                      +{orderIngredients.length - 5}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <BurgerPrice price={getOrderPrice(order, ingredients)} isCenter={false} />
       </div>
     </div>
   );

@@ -23,3 +23,8 @@
   width: 100%;
   max-width: 50%;
 }
+
+.completed {
+  margin-bottom: 8px;
+  color: var(--colors-interface-success);
+}

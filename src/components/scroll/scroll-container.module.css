@@ -1,7 +1,7 @@
 .scrollable {
   display: flex;
-  flex-direction: column; /* чтобы дети шли вертикально */
-  max-height: 500px; /* задай нужную высоту */
+  flex-direction: column;
+  max-height: 570px;
   padding-right: 8px;
   overflow: hidden auto;
 }

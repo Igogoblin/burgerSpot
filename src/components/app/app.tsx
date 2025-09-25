@@ -42,6 +42,14 @@ export const App = (): React.JSX.Element => {
     const ingredient = ingredients.find((item) => item._id === id);
     return ingredient ? <ModalIngredients ingredient={ingredient} /> : null;
   };
+  const OrderModalContent = (): React.JSX.Element => {
+    const { number } = useParams();
+    // return order ? <DetailsOrders order={order} /> : null;
+    return <div>Order # {number}</div>;
+  };
+  const handleOrderModalClose = (): void => {
+    void navigate(-1);
+  };
   useEffect(() => {
     void dispatch(checkAuth());
     void dispatch(fetchIngredients());
@@ -86,10 +94,12 @@ export const App = (): React.JSX.Element => {
           >
             <Route index element={<ProfileDetails />} />
             <Route path="orders" element={<OrderHistory />} />
+            {/* <Route path="orders/:number" element={<DetailsOrders />} /> */}
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="ingredients/:id" element={<DetailsIngredient />} />
           <Route path="feed" element={<Feed />} />
+          {/* <Route path="feed/:id" element={<DetailsIngredient />} /> */}
         </Route>
       </Routes>
       {background && (
@@ -99,6 +109,22 @@ export const App = (): React.JSX.Element => {
             element={
               <Modal onClose={handleModalClose}>
                 <IngredientModalContent />
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:number"
+            element={
+              <Modal onClose={handleOrderModalClose}>
+                <OrderModalContent />
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:number"
+            element={
+              <Modal onClose={handleOrderModalClose}>
+                <OrderModalContent />
               </Modal>
             }
           />
