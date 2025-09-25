@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { DetailsIngredient } from '@/pages/details-ingredient/detail-ingredient';
+import { DetailsOrders } from '@/pages/details-order/details-order';
 import { Feed } from '@/pages/feed/feed';
 import { ForgotPassword } from '@/pages/forgot-password/forgot-password';
 import { Home } from '@/pages/home/home';
@@ -46,9 +47,8 @@ export const App = (): React.JSX.Element => {
   const OrderModalContent = (): React.JSX.Element | null => {
     const { number } = useParams();
     const orders = useAppSelector((store) => store.orders.orders);
-    const order = orders.find((item) => item.number === Number(number));
-    // return order ? <DetailsOrders order={order} /> : null;
-    // const order = null;
+    const orderNumber = number ? Number(number) : undefined;
+    const order = orders.find((item) => item.number === orderNumber);
     return order ? <OrderModal order={order}></OrderModal> : null;
   };
   const handleOrderModalClose = (): void => {
@@ -98,11 +98,13 @@ export const App = (): React.JSX.Element => {
           >
             <Route index element={<ProfileDetails />} />
             <Route path="orders" element={<Orders />} />
+            <Route path="profile/orders/:number" element={<DetailsOrders />} />
             {/* <Route path="orders/:number" element={<DetailsOrders />} /> */}
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="ingredients/:id" element={<DetailsIngredient />} />
           <Route path="feed" element={<Feed />} />
+          <Route path="feed/:number" element={<DetailsOrders />} />
           {/* <Route path="feed/:id" element={<DetailsIngredient />} /> */}
         </Route>
       </Routes>

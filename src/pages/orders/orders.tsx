@@ -3,10 +3,12 @@ import { ScrollContainer } from '@/components/scroll/scroll-container';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { wsConnecting, wsDisconnecting } from '@/services/orders/ordersSlice';
 import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router';
 
 export const Orders = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const { orders } = useAppSelector((store) => store.orders);
+  const location = useLocation();
   useEffect(() => {
     dispatch(wsConnecting());
     return (): void => {
@@ -17,7 +19,13 @@ export const Orders = (): React.JSX.Element => {
     <section>
       <ScrollContainer>
         {orders.map((order) => (
-          <FeedItem key={order._id} order={order} />
+          <Link
+            key={order._id}
+            state={{ background: location }}
+            to={`/profile/orders/${order.number}`}
+          >
+            <FeedItem order={order} />
+          </Link>
         ))}
       </ScrollContainer>
     </section>

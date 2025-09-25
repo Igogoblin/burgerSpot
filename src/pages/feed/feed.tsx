@@ -25,7 +25,6 @@ export const Feed = (): React.JSX.Element => {
       <p className="text text_type_main-large mb-5">Лента заказов</p>
       <div className={`${style.feed_container}`}>
         <ScrollContainer>
-          {/* <p>Feed Items </p> */}
           {orders.map((order) => (
             <Link
               key={order._id}

@@ -40,7 +40,7 @@ export const FeedItem = ({ order }: TFeedItemProps): React.JSX.Element => {
         </p>
       </div>
       <p className="text text_type_main-medium">{name}</p>
-      {location.pathname !== '/feed' && order.status === 'done' ? (
+      {location.pathname === '/orders' && order.status === 'done' ? (
         <p className="text text_type_main-small" style={{ color: '#00CCCC' }}>
           Выполнен
         </p>
@@ -50,36 +50,6 @@ export const FeedItem = ({ order }: TFeedItemProps): React.JSX.Element => {
       <div className={style.feed_footer}>
         <div className={`${style.image_container}`}>
           {orderIngredients.slice(0, 6).map((item, index) => (
-            // <div
-            //   key={item._id}
-            //   className={`${style.image_wrapper}`}
-            //   style={{
-            //     zIndex: orderIngredients.length - index,
-            //   }}
-            // >
-            //   {index < 5 || orderIngredients.length <= 6 ? (
-            //     <div className={`${style.image_overlay}`}>
-            //       <img
-            //         src={item.image_mobile}
-            //         alt={item.name}
-            //         className={`${style.image}`}
-            //       />
-            //     </div>
-            //   ) : (
-            //     <div className={`${style.image_overlay}`}>
-            //       <img
-            //         src={item.image_mobile}
-            //         alt={item.name}
-            //         className={`${style.image}`}
-            //       />
-            //       <div className={`${style.image_overlay_text}`}>
-            //         <span className="text text_type_digits-default">
-            //           +{orderIngredients.length - 5}
-            //         </span>
-            //       </div>
-            //     </div>
-            //   )}
-            // </div>
             <IngredientMini
               key={item._id}
               ingredient={item}
