@@ -98,14 +98,12 @@ export const App = (): React.JSX.Element => {
           >
             <Route index element={<ProfileDetails />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="profile/orders/:number" element={<DetailsOrders />} />
-            {/* <Route path="orders/:number" element={<DetailsOrders />} /> */}
+            <Route path="orders/:number" element={<DetailsOrders />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="ingredients/:id" element={<DetailsIngredient />} />
           <Route path="feed" element={<Feed />} />
           <Route path="feed/:number" element={<DetailsOrders />} />
-          {/* <Route path="feed/:id" element={<DetailsIngredient />} /> */}
         </Route>
       </Routes>
       {background && (
