@@ -47,7 +47,11 @@ export const DetailsOrders = (): React.JSX.Element | null => {
           #{order.number}
         </p>
         <p className="text text_type_main-medium">{order.name}</p>
-        <p className="text text_type_main-default mt-3">{order.status}</p>
+        <p className="text text_type_main-default mt-3  completed-order">
+          {order.status === 'done' && 'Выполнен'}
+          {order.status === 'created' && 'Создан'}
+          {order.status === 'pending' && 'Готовится'}
+        </p>
         <p className="text text_type_main-medium mt-15 mb-6">Состав:</p>
 
         <ScrollContainer className={style.scroll}>

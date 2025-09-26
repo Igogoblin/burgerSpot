@@ -6,9 +6,6 @@
   max-width: 584px;
   margin-bottom: 16px;
   padding: 24px 0 24px 16px;
-
-  /* background: var(--background); */
-  border: 1px solid red;
   border-radius: 16px;
 }
 

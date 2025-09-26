@@ -10,10 +10,10 @@ const initialState: TOrdersState = {
   connected: false,
   completedOrders: [],
   pendingOrders: [],
-  // error: null,
+  error: null,
 };
 
-const feedSlice = createSlice({
+const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
@@ -36,12 +36,14 @@ const feedSlice = createSlice({
       state.totalToday = action.payload.totalToday;
       state.completedOrders = state.orders.filter((order) => order.status === 'done');
       state.pendingOrders = state.orders.filter((order) => order.status !== 'done');
-      // console.log('state.completedOrders', state.completedOrders);
-      // console.log('state.pendingOrders', state.pendingOrders);
-      // console.log(state.orders);
+    },
+    wsOpen(state) {
+      state.connected = true;
+      state.error = null;
     },
   },
 });
 
-export const { wsConnecting, wsDisconnecting, wsError, wsMessage } = feedSlice.actions;
-export default feedSlice;
+export const { wsConnecting, wsDisconnecting, wsError, wsMessage, wsOpen } =
+  ordersSlice.actions;
+export default ordersSlice;

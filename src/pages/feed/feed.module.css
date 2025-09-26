@@ -1,33 +1,14 @@
 .feed {
   width: 100%;
   max-width: 1240px;
-
-  /* height: 100%; */
   margin: 0 auto;
   padding: 16px 0 16px 16px;
-  border: 1px solid white;
 }
 
 .feed_container {
   display: flex;
   gap: 36px;
   height: 100%;
-}
-
-.image_wrapper {
-  width: 40px;
-  height: 40px;
-  margin-right: -15px;
-  overflow: hidden;
-  border: 1px solid red;
-  border-radius: 50%;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .link {

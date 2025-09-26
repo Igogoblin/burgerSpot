@@ -1,11 +1,16 @@
-import { wsConnecting, wsDisconnecting, wsError, wsMessage } from './ordersSlice';
+import {
+  wsConnecting,
+  wsDisconnecting,
+  wsError,
+  wsMessage,
+  wsOpen,
+} from './ordersSlice';
 
 import type { TOrdersResponse } from '../types/types';
 import type { Middleware } from 'redux';
 
 export const ordersMiddleware: Middleware = (store) => {
   let socket: WebSocket | null = null;
-
   return (next) => (action) => {
     if (wsConnecting.match(action)) {
       const token: string | undefined = action.payload?.token;
@@ -17,6 +22,7 @@ export const ordersMiddleware: Middleware = (store) => {
 
       socket.onopen = (): void => {
         console.log('WebSocket connected');
+        store.dispatch(wsOpen());
       };
 
       socket.onerror = (event): void => {

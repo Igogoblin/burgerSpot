@@ -28,7 +28,9 @@ export const OrderModal = ({ order }: TFeedItemProps): React.JSX.Element => {
         #{order.number}
       </p>
       <p className="text text_type_main-medium">{order.name}</p>
-      <p className="text text_type_main-default mt-3">{order.status}</p>
+      <p className="text text_type_main-default mt-3 completed-order">
+        {order.status === 'done' && 'Выполнен'}
+      </p>
       <p className="text text_type_main-medium mt-15 mb-6">Состав:</p>
       <ScrollContainer className={`${style.scroll}`}>
         {bun && (

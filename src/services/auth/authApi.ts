@@ -94,6 +94,5 @@ export const updateUserApi = async (
   });
   return res;
 };
-
 const withBearer = (token: string): string =>
   token.startsWith('Bearer ') ? token : `Bearer ${token}`;

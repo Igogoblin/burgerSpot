@@ -3,15 +3,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './auth/authSlice';
 import ingredientsSlice from './ingredientsSlice';
 import { ordersMiddleware } from './orders/ordersMiddleware';
-import feedSlice from './orders/ordersSlice';
-import orderSlice from './orderSlice';
+import ordersSlice from './orders/ordersSlice';
+import purchaseSlice from './purchase/purchaseSlice';
 
 export const store = configureStore({
   reducer: {
     ingredients: ingredientsSlice.reducer,
-    order: orderSlice.reducer,
+    orders: ordersSlice.reducer,
     auth: authSlice,
-    orders: feedSlice.reducer,
+    purchase: purchaseSlice,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(ordersMiddleware);

@@ -104,3 +104,18 @@ export type TOrdersResponse = {
   total: number;
   totalToday: number;
 };
+
+export type IOrderResponse = {
+  success: boolean;
+  name: string;
+  order: {
+    number: number;
+  };
+  message?: string;
+};
+
+export type TOrderState = {
+  order: { number: number } | null;
+  isLoading: boolean;
+  error: string | null;
+};

@@ -27,12 +27,14 @@ export const IngredientMini = ({
           alt={ingredient.name}
           className={`${style.image}`}
         />
-        {orderIngredients.length > 6 && typeof index === 'number' && index > 5 ? (
-          <div className={`${style.image_overlay_text}`}>
-            <span className="text text_type_digits-default">
-              +{orderIngredients.length - 5}
-            </span>
-          </div>
+        {orderIngredients.length > 5 ? (
+          typeof index === 'number' && index < 5 ? null : (
+            <div className={`${style.image_overlay_text}`}>
+              <span className="text text_type_digits-default">
+                +{orderIngredients.length - 5}
+              </span>
+            </div>
+          )
         ) : null}
       </div>
     </div>
