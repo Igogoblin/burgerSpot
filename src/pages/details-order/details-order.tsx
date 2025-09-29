@@ -55,7 +55,7 @@ export const DetailsOrders = (): React.JSX.Element | null => {
 
   return (
     <section className={style.module}>
-      <div className={style.module}>
+      <div>
         <p className="text text_type_digits-default mb-5 mr-auto ml-auto">
           #{order.number}
         </p>

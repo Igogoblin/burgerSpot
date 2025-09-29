@@ -75,7 +75,8 @@ export const App = (): React.JSX.Element => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+  // const isProfileOrderModal =
+  //   location.pathname.startsWith('/profile/orders/') && !background;
   return (
     <div className={styles.app}>
       <Routes location={background ?? location}>
@@ -132,14 +133,17 @@ export const App = (): React.JSX.Element => {
               </Modal>
             }
           />
+          {/* {isProfileOrderModal && ( */}
           <Route
             path="/profile/orders/:number"
             element={
               <Modal onClose={handleOrderModalClose}>
-                <OrderModalContent />
+                <DetailsOrders />
+                {/* <OrderModalContent /> */}
               </Modal>
             }
           />
+          {/* )} */}
         </Routes>
       )}
     </div>
