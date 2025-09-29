@@ -12,7 +12,7 @@ export const DetailsIngredient = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const { ingredients, isLoading } = useAppSelector((store) => store.ingredients);
   const [currentIngredient, setIngredient] = useState<TIngredient | null>(null);
-  console.log(ingredients);
+  // console.log(ingredients);
   useEffect(() => {
     if (ingredients.length === 0) {
       void dispatch(fetchIngredients());

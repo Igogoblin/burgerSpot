@@ -13,6 +13,12 @@ export const IngredientMini = ({
   orderIngredients: { _id: string }[];
   index?: number;
 }): React.JSX.Element => {
+  // const maxVisible = 6;
+  // const isHidden = typeof index === 'number' && index >= maxVisible;
+  // const hiddenCount = orderIngredients.length - maxVisible;
+  {
+    console.log(index);
+  }
   return (
     <div
       key={ingredient._id}
@@ -27,15 +33,15 @@ export const IngredientMini = ({
           alt={ingredient.name}
           className={`${style.image}`}
         />
-        {orderIngredients.length > 5 ? (
-          typeof index === 'number' && index < 5 ? null : (
-            <div className={`${style.image_overlay_text}`}>
-              <span className="text text_type_digits-default">
-                +{orderIngredients.length - 5}
-              </span>
-            </div>
-          )
-        ) : null}
+        {orderIngredients.length > 5
+          ? index === 5 && (
+              <div className={`${style.image_overlay_text}`}>
+                <span className="text text_type_digits-default">
+                  +{orderIngredients.length - 4}
+                </span>
+              </div>
+            )
+          : null}
       </div>
     </div>
   );

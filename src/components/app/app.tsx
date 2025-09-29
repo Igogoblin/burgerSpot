@@ -16,6 +16,7 @@ import { fetchIngredients, setIngredientDetails } from '@/services/ingredientsSl
 import { fetchOrderDetails } from '@/services/purchase/purchaseThunk';
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
+import { ClipLoader } from 'react-spinners';
 
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import Modal from '../modal/modal';
@@ -38,8 +39,8 @@ export const App = (): React.JSX.Element => {
   const navigate = useNavigate();
   const orders = useAppSelector((store) => store.orders.orders);
 
-  const background: Location | null =
-    (location.state as { background?: Location } | null)?.background ?? null;
+  const background =
+    (location.state as { background?: Location | null } | null)?.background ?? null;
   const IngredientModalContent = (): React.JSX.Element | null => {
     const { id } = useParams();
     const ingredient = ingredients.find((item) => item._id === id);
@@ -54,7 +55,16 @@ export const App = (): React.JSX.Element => {
         void dispatch(fetchOrderDetails(orderNumber));
       }
     }, [dispatch, order, orderNumber, orders.length]);
-    return order ? <OrderModal order={order}></OrderModal> : <div>Loading...</div>;
+    return order ? (
+      <OrderModal order={order}></OrderModal>
+    ) : (
+      <ClipLoader
+        color="#4c4cff"
+        size={150}
+        aria-label={'Загрузка Spinner'}
+        cssOverride={{ margin: 'auto auto' }}
+      />
+    );
   };
   const handleOrderModalClose = (): void => {
     void navigate(-1);

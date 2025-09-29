@@ -11,7 +11,7 @@ import type { TIngredient } from '@/utils/types';
 
 import style from './details-order.module.css';
 
-export const DetailsOrders = (): React.JSX.Element | null => {
+export const DetailsOrders = (): React.JSX.Element => {
   const { number } = useParams<{ number: string }>();
   const orders = useAppSelector((store) => store.orders.orders);
   const { ingredients } = useAppSelector((store) => store.ingredients);
@@ -19,15 +19,15 @@ export const DetailsOrders = (): React.JSX.Element | null => {
   const { detailsOrder, isLoading, error } = useAppSelector(
     (store) => store.detailsOrder
   );
-
+  const { isAuthChecked } = useAppSelector((store) => store.auth.user);
   useEffect(() => {
-    if (!orders.length) {
+    if (isAuthChecked) {
       dispatch(wsConnecting());
     }
     return (): void => {
       dispatch(wsDisconnecting());
     };
-  }, [dispatch, orders.length]);
+  }, [dispatch, isAuthChecked]);
 
   useEffect(() => {
     if (number && !orders.find((o) => String(o.number) === number)) {

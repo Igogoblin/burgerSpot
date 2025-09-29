@@ -1,3 +1,5 @@
+import { ClipLoader } from 'react-spinners';
+
 import type { TOrder } from '@/services/types/types';
 
 import style from './stats.module.css';
@@ -13,6 +15,14 @@ export const Stats = ({
   pendingOrders: TOrder[] | null;
   completedOrders: TOrder[] | null;
 }): React.JSX.Element => {
+  if (!pendingOrders || !completedOrders) {
+    <ClipLoader
+      color="#4c4cff"
+      size={150}
+      aria-label="Загрузка Spinner"
+      cssOverride={{ margin: 'auto auto' }}
+    />;
+  }
   return (
     <div className={`${style.stats}`}>
       <div className={style.stats_header}>
