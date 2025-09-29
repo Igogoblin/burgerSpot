@@ -16,7 +16,7 @@ import { fetchIngredients, setIngredientDetails } from '@/services/ingredientsSl
 import { fetchOrderDetails } from '@/services/purchase/purchaseThunk';
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
-import { ClipLoader } from 'react-spinners';
+import { CircleLoader, ClipLoader } from 'react-spinners';
 
 import ModalIngredients from '../burger-ingredients/burger-ingredients';
 import Modal from '../modal/modal';
@@ -83,10 +83,16 @@ export const App = (): React.JSX.Element => {
     return <div>{error}</div>;
   }
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <CircleLoader
+        color="#4c4cff"
+        size={150}
+        aria-label={'Загрузка Spinner'}
+        cssOverride={{ margin: 'auto auto' }}
+      />
+    );
   }
-  // const isProfileOrderModal =
-  //   location.pathname.startsWith('/profile/orders/') && !background;
+
   return (
     <div className={styles.app}>
       <Routes location={background ?? location}>
@@ -143,7 +149,7 @@ export const App = (): React.JSX.Element => {
               </Modal>
             }
           />
-          {/* {isProfileOrderModal && ( */}
+
           <Route
             path="/profile/orders/:number"
             element={
@@ -153,7 +159,6 @@ export const App = (): React.JSX.Element => {
               </Modal>
             }
           />
-          {/* )} */}
         </Routes>
       )}
     </div>

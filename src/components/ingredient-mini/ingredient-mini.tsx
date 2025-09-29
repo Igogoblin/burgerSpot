@@ -13,12 +13,6 @@ export const IngredientMini = ({
   orderIngredients: { _id: string }[];
   index?: number;
 }): React.JSX.Element => {
-  // const maxVisible = 6;
-  // const isHidden = typeof index === 'number' && index >= maxVisible;
-  // const hiddenCount = orderIngredients.length - maxVisible;
-  {
-    console.log(index);
-  }
   return (
     <div
       key={ingredient._id}
