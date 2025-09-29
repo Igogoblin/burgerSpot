@@ -7,13 +7,13 @@ import { Home } from '@/pages/home/home';
 import { Login } from '@/pages/login/login';
 import { NotFound } from '@/pages/not-found/not-found';
 import { OrderModal } from '@/pages/order-modal/order-modal';
-// import { OrderModal } from '@/pages/order-history/order-modal';
 import { Orders } from '@/pages/orders/orders';
 import { Profile } from '@/pages/profile/profile';
 import { Register } from '@/pages/registration/register';
 import { ResetPassword } from '@/pages/reset-password/reset-password';
 import { checkAuth } from '@/services/auth/authThunk';
 import { fetchIngredients, setIngredientDetails } from '@/services/ingredientsSlice';
+import { fetchOrderDetails } from '@/services/purchase/purchaseThunk';
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
 
@@ -36,6 +36,7 @@ export const App = (): React.JSX.Element => {
   const { isLoading, error, ingredients } = useAppSelector((store) => store.ingredients);
   const location = useLocation();
   const navigate = useNavigate();
+  const orders = useAppSelector((store) => store.orders.orders);
 
   const background: Location | null =
     (location.state as { background?: Location } | null)?.background ?? null;
@@ -46,10 +47,14 @@ export const App = (): React.JSX.Element => {
   };
   const OrderModalContent = (): React.JSX.Element | null => {
     const { number } = useParams();
-    const orders = useAppSelector((store) => store.orders.orders);
     const orderNumber = number ? Number(number) : undefined;
     const order = orders.find((item) => item.number === orderNumber);
-    return order ? <OrderModal order={order}></OrderModal> : null;
+    useEffect(() => {
+      if (orderNumber && orders.length && !order) {
+        void dispatch(fetchOrderDetails(orderNumber));
+      }
+    }, [dispatch, order, orderNumber, orders.length]);
+    return order ? <OrderModal order={order}></OrderModal> : <div>Loading...</div>;
   };
   const handleOrderModalClose = (): void => {
     void navigate(-1);
@@ -98,8 +103,11 @@ export const App = (): React.JSX.Element => {
           >
             <Route index element={<ProfileDetails />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="orders/:number" element={<DetailsOrders />} />
           </Route>
+          <Route
+            path="profile/orders/:number"
+            element={<ProtectedRouteElement element={<DetailsOrders />} />}
+          />
           <Route path="*" element={<NotFound />} />
           <Route path="ingredients/:id" element={<DetailsIngredient />} />
           <Route path="feed" element={<Feed />} />

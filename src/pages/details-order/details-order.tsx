@@ -2,6 +2,7 @@ import BurgerPrice from '@/components/burger-price/burger-price';
 import { IngredientMini } from '@/components/ingredient-mini/ingredient-mini';
 import { ScrollContainer } from '@/components/scroll/scroll-container';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { fetchOrderByNumber } from '@/services/detailsOrder/detailsOrderThunk';
 import { wsConnecting, wsDisconnecting } from '@/services/orders/ordersSlice';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
@@ -15,6 +16,9 @@ export const DetailsOrders = (): React.JSX.Element | null => {
   const orders = useAppSelector((store) => store.orders.orders);
   const { ingredients } = useAppSelector((store) => store.ingredients);
   const dispatch = useAppDispatch();
+  const { detailsOrder, isLoading, error } = useAppSelector(
+    (store) => store.detailsOrder
+  );
 
   useEffect(() => {
     if (!orders.length) {
@@ -25,8 +29,17 @@ export const DetailsOrders = (): React.JSX.Element | null => {
     };
   }, [dispatch, orders.length]);
 
-  const order = orders.find((item) => String(item.number) === number);
-  if (!order) return <div>Загрузка...</div>;
+  useEffect(() => {
+    if (number && !orders.find((o) => String(o.number) === number)) {
+      void dispatch(fetchOrderByNumber(number));
+    }
+  }, [dispatch, number, orders]);
+
+  const order = orders.find((item) => String(item.number) === number) ?? detailsOrder;
+  if (!order) return <div>Загрузка... Ордера</div>;
+
+  if (isLoading) return <div>Загрузка...</div>;
+  if (error) return <div>{error}</div>;
 
   const orderIngredients: TIngredient[] = order.ingredients
     .map((id) => ingredients.find((i) => i._id === id))

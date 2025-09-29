@@ -103,6 +103,7 @@ export type TOrdersResponse = {
   orders: TOrder[];
   total: number;
   totalToday: number;
+  message?: string;
 };
 
 export type IOrderResponse = {

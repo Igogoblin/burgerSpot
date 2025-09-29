@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import authSlice from './auth/authSlice';
+import detailsOrderSlice from './detailsOrder/detailOrderSlice';
 import ingredientsSlice from './ingredientsSlice';
 import { ordersMiddleware } from './orders/ordersMiddleware';
 import ordersSlice from './orders/ordersSlice';
@@ -12,6 +13,7 @@ export const store = configureStore({
     orders: ordersSlice.reducer,
     auth: authSlice,
     purchase: purchaseSlice,
+    detailsOrder: detailsOrderSlice,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(ordersMiddleware);
