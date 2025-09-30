@@ -5,7 +5,8 @@ import {
   orderClear,
   setIngredientDetails,
 } from '@/services/ingredientsSlice';
-import { clearOrder, createOrder } from '@/services/orderSlice';
+import { clearOrder } from '@/services/purchase/purchaseSlice';
+import { createOrder } from '@/services/purchase/purchaseThunk';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
@@ -33,7 +34,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
     (store) => store.ingredients
   );
   const user = useAppSelector((store) => store.auth.user);
-  const orderNumber = useAppSelector((store) => store.order.number);
+  const orderNumber = useAppSelector((store) => store.purchase.order?.number);
   const navigate = useNavigate();
   const location = useLocation();
   const [{ isDragging }, dropRef] = useDrop<
@@ -90,7 +91,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
     if (!ingredientIds.length) return;
     try {
       const result = await dispatch(createOrder(ingredientIds)).unwrap();
-      console.log(`Заказ успешно создан! Номер заказа: ${result}`);
+      console.log(`Заказ успешно создан! Номер заказа: ${result.order.number}`);
     } catch (error) {
       console.error('Ошибка при создании заказа:', error);
       alert('Не удалось создать заказ. Пожалуйста, попробуйте ещё раз.');

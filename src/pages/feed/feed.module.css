@@ -1,0 +1,16 @@
+.feed {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 16px 0 16px 16px;
+}
+
+.feed_container {
+  display: flex;
+  gap: 36px;
+  height: 100%;
+}
+
+.link {
+  cursor: pointer;
+}

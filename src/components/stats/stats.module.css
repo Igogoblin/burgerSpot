@@ -1,0 +1,26 @@
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 40px;
+  width: 100%;
+  max-width: 580px;
+}
+
+.stats_header {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: start;
+  gap: 36px;
+  width: 100%;
+}
+
+.header_item {
+  width: 100%;
+  max-width: 50%;
+}
+
+.completed {
+  margin-bottom: 8px;
+  color: var(--colors-interface-success);
+}
