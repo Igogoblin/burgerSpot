@@ -46,4 +46,4 @@ const ordersSlice = createSlice({
 
 export const { wsConnecting, wsDisconnecting, wsError, wsMessage, wsOpen } =
   ordersSlice.actions;
-export default ordersSlice;
+export default ordersSlice.reducer;

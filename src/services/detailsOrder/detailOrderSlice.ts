@@ -42,7 +42,7 @@ const detailsOrderSlice = createSlice({
       })
       .addCase(fetchOrderByNumber.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload ?? 'Ошибка при загрузке заказа';
+        state.error = action.payload ?? 'Mistake при loader order';
       });
   },
 });

@@ -88,7 +88,7 @@ const ingredientsSlice = createSlice({
   },
 });
 
-export default ingredientsSlice;
+export default ingredientsSlice.reducer;
 export const {
   setIngredientDetails,
   setType,
