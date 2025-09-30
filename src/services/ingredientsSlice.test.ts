@@ -8,6 +8,7 @@ import reducer, {
   setDecrementIngredient,
   replaceListIngredient,
   orderClear,
+  fetchIngredients,
 } from './ingredientsSlice';
 
 import type { TIngredient } from './../utils/types';
@@ -43,9 +44,9 @@ describe('ingredientsSlice', () => {
     },
   };
 
-  // it('should handle initial state', () => {
-  //   expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
-  // });
+  it('should handle initial state', () => {
+    expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
+  });
 
   it('setIngredientDetails should set ingredient', () => {
     const ingredient = mockIngredient('123', 'test');
@@ -92,4 +93,27 @@ describe('ingredientsSlice', () => {
     const state = reducer(initialState, orderClear());
     expect(state.listIngredients).toEqual([]);
   });
+
+  it('should handle fetchIngredients.pending', () => {
+    const action = { type: fetchIngredients.pending.type };
+    const state = reducer(initialState, action);
+    expect(state.isLoading).toBe(true);
+    expect(state.error).toBe(null);
+  });
+
+  it('should handle fetchIngredients.fulfilled', () => {
+    const action = { type: fetchIngredients.fulfilled.type };
+    const state = reducer(initialState, action);
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBe(null);
+  });
+
+  it('should handle fetchIngredients.rejected', () => {
+    const action = { type: fetchIngredients.rejected.type, error: { message: 'error' } };
+    const state = reducer(initialState, action);
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBe('error');
+  });
+
+  // it('should handle unknown action', () => {
 });
