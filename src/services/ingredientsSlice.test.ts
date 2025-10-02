@@ -114,6 +114,4 @@ describe('ingredientsSlice', () => {
     expect(state.isLoading).toBe(false);
     expect(state.error).toBe('error');
   });
-
-  // it('should handle unknown action', () => {
 });

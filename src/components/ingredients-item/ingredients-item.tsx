@@ -15,6 +15,7 @@ export type TIngredientsItemProps = {
   onClick: (ingredient: TIngredient) => void;
   moveCard?: (dragIndex: number, hoverIndex: number) => void;
   uniqueId?: string;
+  dataCy?: string;
 };
 
 const IngredientsItem = ({
@@ -41,6 +42,7 @@ const IngredientsItem = ({
       className={style.block}
       onClick={() => onClick(ingredient)}
       draggable={true}
+      data-cy="ingredient-card"
       ref={dragRef as unknown as React.Ref<HTMLDivElement>}
     >
       <img src={ingredient.image} alt="Ingredient" />

@@ -23,6 +23,7 @@ const ConstructorItem = ({
   index,
   type = 'primary',
   className,
+  dataCy,
   onClick,
   moveCard,
 }: TIngredientsItemProps): React.JSX.Element => {
@@ -78,7 +79,7 @@ const ConstructorItem = ({
         type="primary"
         className={`${style.constructorPanel} ${type === 'secondary' && style.constructorPanelLock}`}
       />
-      <div className={`${style.constructorDescription} ${className}`}>
+      <div className={`${style.constructorDescription} ${className}`} data-cy={dataCy}>
         <div className={style.constructorVisual} onClick={() => onClick(ingredient)}>
           <img src={ingredient.image_mobile} alt="Ingredient" className={style.image} />
           <div
