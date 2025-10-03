@@ -21,7 +21,8 @@ export default defineConfig({
       esmExport: true,
     }),
   ],
-  base: BASE_PATH,
+  // base: BASE_PATH,
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
