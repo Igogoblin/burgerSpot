@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { TOrder, TOrdersState } from '../types/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: TOrdersState = {
+export const initialState: TOrdersState = {
   orders: [],
   total: 0,
   totalToday: 0,

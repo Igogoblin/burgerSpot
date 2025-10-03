@@ -4,7 +4,7 @@ import { createOrder } from './purchaseThunk';
 
 import type { TOrderState } from '../types/types';
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   order: null,
   isLoading: false,
   error: null,

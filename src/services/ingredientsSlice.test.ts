@@ -9,6 +9,7 @@ import reducer, {
   replaceListIngredient,
   orderClear,
   fetchIngredients,
+  initialState,
 } from './ingredientsSlice';
 
 import type { TIngredient } from './../utils/types';
@@ -30,20 +31,6 @@ const mockIngredient = (id: string, name: string): TIngredient => ({
 });
 
 describe('ingredientsSlice', () => {
-  const initialState = {
-    ingredients: [] as TIngredient[],
-    listIngredients: [] as TIngredient[],
-    ingredient: null,
-    type: ['bun', 'main', 'sauce'],
-    bun: false,
-    isLoading: false,
-    error: null,
-    state: {
-      success: false,
-      data: [],
-    },
-  };
-
   it('should handle initial state', () => {
     expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
   });

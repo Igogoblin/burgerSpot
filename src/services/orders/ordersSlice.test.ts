@@ -6,19 +6,10 @@ import reducer, {
   wsError,
   wsMessage,
   wsOpen,
+  initialState,
 } from './ordersSlice';
 
-import type { TOrder, TOrdersState } from '../types/types';
-
-const initialState: TOrdersState = {
-  orders: [],
-  total: 0,
-  totalToday: 0,
-  connected: false,
-  completedOrders: [],
-  pendingOrders: [],
-  error: null,
-};
+import type { TOrder } from '../types/types';
 
 const mockOrders: TOrder[] = [
   {

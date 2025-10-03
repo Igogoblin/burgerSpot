@@ -11,7 +11,7 @@ type TDetailsOrderState = {
   error: string | null;
 };
 
-const initialState: TDetailsOrderState = {
+export const initialState: TDetailsOrderState = {
   detailsOrder: null,
   isLoading: false,
   error: null,

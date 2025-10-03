@@ -1,32 +1,28 @@
 import { describe, expect, it } from 'vitest';
 
-import reducer, { setDetailsOrder, clearDetailsOrder } from './detailOrderSlice';
+import reducer, {
+  setDetailsOrder,
+  clearDetailsOrder,
+  initialState,
+} from './detailOrderSlice';
 import { fetchOrderByNumber } from './detailsOrderThunk';
 
 import type { TOrder } from '../types/types';
-
+export const order: TOrder = {
+  _id: '1',
+  ingredients: ['1', '2'],
+  status: 'done',
+  name: 'testSaveOrder',
+  number: 123,
+  createdAt: '2023-01-01',
+  updatedAt: '2023-01-01',
+};
 describe('detailsOrderSlice', () => {
-  const initialState = {
-    detailsOrder: null,
-    isLoading: false,
-    error: null,
-  };
-
   it('should return the initial state', () => {
     expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
   });
 
   it('setDetailsOrder can save order', () => {
-    const order: TOrder = {
-      _id: '1',
-      ingredients: ['1', '2'],
-      status: 'done',
-      name: 'testSaveOrder',
-      number: 123,
-      createdAt: '2023-01-01',
-      updatedAt: '2023-01-01',
-    };
-
     const state = reducer(initialState, setDetailsOrder(order));
     expect(state.detailsOrder).toEqual(order);
   });
@@ -34,15 +30,7 @@ describe('detailsOrderSlice', () => {
   it('clearDetailsOrder can clear order', () => {
     const modifiedState = {
       ...initialState,
-      detailsOrder: {
-        _id: '1',
-        ingredients: ['1', '2'],
-        status: 'done' as const,
-        name: 'testSaveOrder',
-        number: 123,
-        createdAt: '2023-01-01',
-        updatedAt: '2023-01-01',
-      } as TOrder,
+      detailsOrder: order,
     };
 
     const state = reducer(modifiedState, clearDetailsOrder());
@@ -57,15 +45,6 @@ describe('detailsOrderSlice', () => {
   });
 
   it('fetchOrderByNumber fulfilled, need to save order and change isLoading to false', () => {
-    const order: TOrder = {
-      _id: '1',
-      ingredients: ['1', '2'],
-      status: 'done',
-      name: 'testSaveOrder',
-      number: 123,
-      createdAt: '2023-01-01',
-      updatedAt: '2023-01-01',
-    };
     const action = { type: fetchOrderByNumber.fulfilled.type, payload: order };
     const state = reducer(initialState, action);
     expect(state.isLoading).toBe(false);

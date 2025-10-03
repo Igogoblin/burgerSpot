@@ -10,7 +10,7 @@ const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async 
   return response.data;
 });
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   ingredients: [],
   listIngredients: [],
   ingredient: null,
