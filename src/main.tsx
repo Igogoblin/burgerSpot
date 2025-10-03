@@ -12,7 +12,7 @@ import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/burgerSpot/">
       <Provider store={store}>
         {/* <DndProvider backend={HTML5Backend}> */}
         <App />
