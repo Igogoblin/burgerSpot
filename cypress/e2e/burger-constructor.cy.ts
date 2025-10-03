@@ -2,15 +2,17 @@ describe('Burger Constructor Functionality', () => {
   const testIngredientName = 'Флюоресцентная булка R2-D3';
   const testSauceName = 'Соус Spicy-X';
   const testMainName = 'Мясо бессмертных моллюсков Protostomia';
+  const ingredientCardSelector = '[data-cy="ingredient-card"]';
+  const constructorAreaSelector = '[data-cy="constructor-area"]';
 
   beforeEach(() => {
     cy.visit('/');
-    cy.get('[data-cy="ingredient-card"]').should('be.visible');
+    cy.get(ingredientCardSelector).should('be.visible');
   });
   // здесь выполним проверку на открытие и закрытие модального окна и его содержимого
   it('should open and close an ingredient modal', () => {
     // 1. Найти ингредиент и кликнуть по нему
-    cy.get('[data-cy="ingredient-card"]').contains(testIngredientName).click();
+    cy.get(ingredientCardSelector).contains(testIngredientName).click();
 
     // 2. Проверить, что модальное окно открылось
     cy.get('[data-cy="modal"]').should('exist').and('be.visible');
@@ -30,22 +32,18 @@ describe('Burger Constructor Functionality', () => {
   // здесь проверим перетаскивание ингредиентов в конструктор и модалку заказа
   it('should drag and drop ingredients to the constructor and make an order', () => {
     // 1. Перетаскивание булки
-    cy.get('[data-cy="ingredient-card"]')
+    cy.get(ingredientCardSelector)
       .contains(testIngredientName)
-      .drag('[data-cy="constructor-area"]');
+      .drag(constructorAreaSelector);
 
     // Проверяем, что булка появилась в конструкторе (верхняя и нижняя)
     cy.get('[data-cy="constructor-bun-top"]').should('contain', testIngredientName);
     cy.get('[data-cy="constructor-bun-bottom"]').should('contain', testIngredientName);
 
     // 2. Перетаскивание нескольких других ингредиентов (соус, начинка)
-    cy.get('[data-cy="ingredient-card"]')
-      .contains(testSauceName)
-      .drag('[data-cy="constructor-area"]');
+    cy.get(ingredientCardSelector).contains(testSauceName).drag(constructorAreaSelector);
 
-    cy.get('[data-cy="ingredient-card"]')
-      .contains(testMainName)
-      .drag('[data-cy="constructor-area"]');
+    cy.get(ingredientCardSelector).contains(testMainName).drag(constructorAreaSelector);
 
     cy.get('[data-cy="login-button"]').click();
     cy.url().should('include', '/login');
@@ -67,17 +65,15 @@ describe('Burger Constructor Functionality', () => {
     cy.get('[data-cy="modal"]').should('not.exist');
 
     // Проверяем, что конструктор очистился после заказа
-    cy.get('[data-cy="constructor-area"]').should('not.contain', testIngredientName);
-    cy.get('[data-cy="constructor-area"]').should('not.contain', testSauceName);
-    cy.get('[data-cy="constructor-area"]').should('not.contain', testMainName);
+    cy.get(constructorAreaSelector).should('not.contain', testIngredientName);
+    cy.get(constructorAreaSelector).should('not.contain', testSauceName);
+    cy.get(constructorAreaSelector).should('not.contain', testMainName);
   });
 
   //  Дополнительный свой тест: оформление заказа без булки
   it('should not allow ordering without a bun', () => {
     // Перетаскиваем только соус (без булки)
-    cy.get('[data-cy="ingredient-card"]')
-      .contains(testSauceName)
-      .drag('[data-cy="constructor-area"]');
+    cy.get(ingredientCardSelector).contains(testSauceName).drag(constructorAreaSelector);
     cy.get('[data-cy="constructor-ingredient"]').should('contain', testSauceName);
 
     cy.get('[data-cy="order-button"]').should('not.be.disabled');
