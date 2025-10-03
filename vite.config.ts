@@ -5,6 +5,9 @@ import readableClassnames from 'vite-plugin-readable-classnames';
 import checker from 'vite-plugin-checker';
 import sassDts from 'vite-plugin-sass-dts';
 
+const REPO_NAME = 'burgerSpot';
+const BASE_PATH = `/${REPO_NAME}/`;
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -18,7 +21,7 @@ export default defineConfig({
       esmExport: true,
     }),
   ],
-  base: '',
+  base: BASE_PATH,
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
