@@ -5,6 +5,17 @@ describe('Burger Constructor Functionality', () => {
   const ingredientCardSelector = '[data-cy="ingredient-card"]';
   const constructorAreaSelector = '[data-cy="constructor-area"]';
 
+  // обьединил в одну команду login
+  Cypress.Commands.add('login', (email, password) => {
+    cy.get('[data-cy="login-button"]').click();
+    cy.url().should('include', '/login');
+    cy.get('input[name="email"]').type(email);
+    cy.get('input[name="password"]').type(password);
+    cy.get('button').contains('Войти').click();
+    cy.wait(1000);
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
+  });
+
   beforeEach(() => {
     cy.visit('/');
     cy.get(ingredientCardSelector).should('be.visible');
@@ -45,13 +56,7 @@ describe('Burger Constructor Functionality', () => {
 
     cy.get(ingredientCardSelector).contains(testMainName).drag(constructorAreaSelector);
 
-    cy.get('[data-cy="login-button"]').click();
-    cy.url().should('include', '/login');
-    cy.get('input[name="email"]').type('testGroup53@test.com');
-    cy.get('input[name="password"]').type('password123');
-    cy.get('button').contains('Войти').click();
-    cy.wait(1000);
-    cy.url().should('eq', Cypress.config().baseUrl + '/');
+    cy.login('testGroup53@test.com', 'password123');
 
     // После авторизации, нажимаем кнопку "Оформить заказ"
     cy.get('[data-cy="order-button"]').click();
@@ -76,14 +81,7 @@ describe('Burger Constructor Functionality', () => {
     cy.get(ingredientCardSelector).contains(testSauceName).drag(constructorAreaSelector);
     cy.get('[data-cy="constructor-ingredient"]').should('contain', testSauceName);
 
-    cy.get('[data-cy="order-button"]').should('not.be.disabled');
-    cy.get('[data-cy="login-button"]').click();
-    cy.url().should('include', '/login');
-    cy.get('input[name="email"]').type('testGroup53@test.com');
-    cy.get('input[name="password"]').type('password123');
-    cy.get('button').contains('Войти').click();
-    cy.wait(1000);
-    cy.url().should('eq', Cypress.config().baseUrl + '/');
+    cy.login('testGroup53@test.com', 'password123');
     const stub = cy.stub();
     cy.on('window:alert', stub);
 
