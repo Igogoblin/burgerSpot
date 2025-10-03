@@ -48,6 +48,7 @@ export const AppHeader = (): React.JSX.Element => {
             <ProfileIcon type="secondary" />
             <p
               className={`text text_type_main-default ml-2 ${location.pathname === '/profile' ? '' : activeClass}`}
+              data-cy="login-button"
             >
               Личный кабинет
             </p>

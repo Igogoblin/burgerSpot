@@ -11,7 +11,7 @@ type TDetailsOrderState = {
   error: string | null;
 };
 
-const initialState: TDetailsOrderState = {
+export const initialState: TDetailsOrderState = {
   detailsOrder: null,
   isLoading: false,
   error: null,
@@ -42,7 +42,7 @@ const detailsOrderSlice = createSlice({
       })
       .addCase(fetchOrderByNumber.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload ?? 'Ошибка при загрузке заказа';
+        state.error = action.payload ?? 'Mistake при loader order';
       });
   },
 });
