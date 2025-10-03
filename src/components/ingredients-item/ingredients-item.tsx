@@ -7,6 +7,7 @@ import { useDrag } from 'react-dnd';
 import type { TIngredient } from '@utils/types';
 
 import style from './ingredients-item.module.css';
+
 export type TIngredientsItemProps = {
   ingredient: TIngredient;
   type?: string;
