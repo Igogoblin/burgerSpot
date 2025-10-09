@@ -9,8 +9,8 @@ import purchaseSlice from './purchase/purchaseSlice';
 
 export const store = configureStore({
   reducer: {
-    ingredients: ingredientsSlice.reducer,
-    orders: ordersSlice.reducer,
+    ingredients: ingredientsSlice,
+    orders: ordersSlice,
     auth: authSlice,
     purchase: purchaseSlice,
     detailsOrder: detailsOrderSlice,

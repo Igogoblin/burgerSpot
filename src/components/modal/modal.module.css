@@ -12,6 +12,8 @@
   position: absolute;
   top: 3.75em;
   right: 2.5em;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
 }
 

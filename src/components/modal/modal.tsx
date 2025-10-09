@@ -32,8 +32,19 @@ const Modal = ({ children, onClose }: TModalProps): React.JSX.Element | null => 
   return ReactDom.createPortal(
     <>
       <ModalOverlay onClose={onClose} />
-      <div className={style.modal}>
-        <CloseIcon type="primary" onClick={onClose} className={style.modalClose} />
+      <div className={style.modal} data-cy="modal">
+        <button
+          onClick={onClose}
+          data-cy="modal-close-button"
+          className={style.modalClose}
+        >
+          <CloseIcon
+            type="primary"
+            onClick={onClose}
+            // className={style.modalClose}
+            // data-cy="modal-close-button"
+          />
+        </button>
         <div>{children}</div>
       </div>
     </>,

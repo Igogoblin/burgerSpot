@@ -127,6 +127,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
       <div
         className={`${styles.constructor_container} ${isDragging && styles.constructor_container_dragging}`}
         ref={dropRef as unknown as React.Ref<HTMLDivElement>}
+        data-cy="constructor-area"
       >
         {bun ? (
           <ConstructorItem
@@ -135,13 +136,17 @@ export const BurgerConstructor = (): React.JSX.Element => {
             onClick={handleOpen}
             type={'secondary'}
             className={`${styles.constructorItemTop}`}
+            dataCy="constructor-bun-top"
           />
         ) : (
-          <div className={`${styles.constructorItemTop}`}>Выберите булки</div>
+          <div className={`${styles.constructorItemTop}`} data-cy="constructor-bun-top">
+            Выберите булки
+          </div>
         )}
 
         <div
           className={`${styles.constructor} ${!listIngredients.find((item) => item.type !== 'bun') ? styles.constructor_without_items : ''}`}
+          data-cy="constructor-ingredient"
         >
           {listIngredients.find((item) => item.type !== 'bun') ? (
             listIngredients
@@ -156,7 +161,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
                 />
               ))
           ) : (
-            <div className={`${styles.constructor_without_items}`}>Выберите начинку</div>
+            <div
+              className={`${styles.constructor_without_items}`}
+              data-cy="constructor-ingredient"
+            >
+              Выберите начинку
+            </div>
           )}
         </div>
         {bun ? (
@@ -167,9 +177,15 @@ export const BurgerConstructor = (): React.JSX.Element => {
             type={'secondary'}
             className={`${styles.constructorItemBottom}`}
             moveCard={moveCard}
+            dataCy="constructor-bun-bottom"
           />
         ) : (
-          <div className={`${styles.constructorItemBottom}`}>Выберите булки</div>
+          <div
+            className={`${styles.constructorItemBottom}`}
+            data-cy="constructor-bun-bottom"
+          >
+            Выберите булки
+          </div>
         )}
       </div>
       <div className={styles.total}>
@@ -181,6 +197,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
           onClick={() => {
             void handleOpenOrder();
           }}
+          data-cy="order-button"
         >
           Оформить заказ
         </Button>

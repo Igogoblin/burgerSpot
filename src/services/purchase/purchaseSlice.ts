@@ -4,7 +4,7 @@ import { createOrder } from './purchaseThunk';
 
 import type { TOrderState } from '../types/types';
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   order: null,
   isLoading: false,
   error: null,
@@ -17,6 +17,7 @@ const purchaseSlice = createSlice({
     clearOrder: (state) => {
       state.order = null;
       state.error = null;
+      state.isLoading = false;
     },
   },
   extraReducers: (builder) => {
@@ -32,7 +33,7 @@ const purchaseSlice = createSlice({
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload ?? 'Ошибка заказа';
+        state.error = action.payload ?? 'Mistake при loader order';
       });
   },
 });

@@ -10,9 +10,13 @@ type TModalOrderProps = {
 
 const ModalOrder = ({ numberOrder }: TModalOrderProps): React.JSX.Element => {
   return (
-    <div className={style.modalOrder}>
-      <h2 className={style.title}>{numberOrder}</h2>
-      <p className={style.order}>идентификатор заказа</p>
+    <div className={style.modalOrder} data-cy="modal">
+      <h2 className={style.title} data-cy="order-id">
+        {numberOrder}
+      </h2>
+      <p className={style.order} data-cy="order-status-text">
+        идентификатор заказа
+      </p>
 
       <div className={style.image}>
         <img src={orderConfirm} alt="Order Confirm" className={style.imageConfirm} />
