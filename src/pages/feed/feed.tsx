@@ -34,7 +34,7 @@ export const Feed = (): React.JSX.Element => {
 
   return (
     <section className={style.feed}>
-      <p className="text text_type_main-large mb-5">Лента заказов</p>
+      <p className="text text_type_main-large mb-5 mt-10">Лента заказов</p>
       <div className={`${style.feed_container}`}>
         <ScrollContainer>
           {orders.map((order) => (

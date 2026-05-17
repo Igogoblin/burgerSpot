@@ -27,7 +27,7 @@ export const Stats = ({
     <div className={`${style.stats}`}>
       <div className={style.stats_header}>
         <div className={style.header_item}>
-          <p className="text text_type_main-medium">Готовы:</p>
+          <p className="text text_type_main-medium mb-6">Готовы:</p>
           {completedOrders && completedOrders.length > 0 ? (
             <div>
               {completedOrders.slice(0, 10).map((order) => (
@@ -44,7 +44,7 @@ export const Stats = ({
           )}
         </div>
         <div className={style.header_item}>
-          <p className="text text_type_main-medium">В работе:</p>
+          <p className="text text_type_main-medium mb-6">В работе:</p>
           {pendingOrders && pendingOrders.length > 0 ? (
             <div>
               {pendingOrders.slice(0, 10).map((order) => (

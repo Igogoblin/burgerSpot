@@ -3,7 +3,8 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 1em;
-  width: 610px;
+  width: 100%;
+  max-width: 610px;
   height: 656px;
   color: var(--text-primary-color);
 }
@@ -13,7 +14,8 @@
 }
 
 .constructor {
-  width: 592px;
+  width: 100%;
+  max-width: 592px;
   height: auto;
   max-height: 480px;
   margin: 1em 0;

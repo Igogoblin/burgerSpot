@@ -3,20 +3,18 @@ import { IngredientsDetails } from '@/components/ingredients-details/ingredients
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import styles from '../../components/app/app.module.css';
+import styles from './home.module.css';
 
 export const Home = (): React.JSX.Element => {
   return (
-    <>
-      <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-        Соберите бургер
-      </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
+    <main className={styles.main}>
+      <h1 className={`text_type_main-large pl-5 ${styles.title}`}>Соберите бургер</h1>
+      <div className={styles.container}>
         <DndProvider backend={HTML5Backend}>
           <IngredientsDetails />
           <BurgerConstructor />
         </DndProvider>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
