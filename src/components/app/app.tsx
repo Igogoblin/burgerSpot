@@ -67,7 +67,9 @@ export const App = (): React.JSX.Element => {
     );
   };
   const handleOrderModalClose = (): void => {
-    void navigate(-1);
+    location.pathname.split('/')[1] === 'feed'
+      ? void navigate('/feed')
+      : void navigate('/profile/orders');
   };
   useEffect(() => {
     void dispatch(checkAuth());
@@ -76,7 +78,7 @@ export const App = (): React.JSX.Element => {
 
   const handleModalClose = (): void => {
     dispatch(setIngredientDetails(null));
-    void navigate('/');
+    void navigate(-1);
   };
 
   if (error) {
